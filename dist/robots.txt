@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://bansalsalesjaipur.dumpydon.workers.dev/sitemap.xml

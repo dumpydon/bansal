@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const {JSDOM}=require('/tmp/bansal-dom-check/node_modules/jsdom');
+const {JSDOM}=require('jsdom');
 const dist=path.resolve(__dirname,'../dist'),html=fs.readFileSync(path.join(dist,'index.html'),'utf8');
 for(const reduced of [false,true]){
  const dom=new JSDOM(html,{runScripts:'outside-only',url:'http://localhost/'}),w=dom.window;w.matchMedia=q=>({matches:q.includes('reduced-motion')?reduced:false,addEventListener(){}});
