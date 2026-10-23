@@ -138,6 +138,13 @@ def wheel(cx,cy):
  s+=f'<g class="spokes" style="transform-origin:{cx}px {cy}px">{spokes}</g>'+circ(cx,cy,4,cream,ink)
  return s
 
+def rickshaw_branding():
+ # A larger painted nameplate stays readable against the cargo-bed rails.
+ s=rect(0,88,166,25,'#7f3e35','#e8bea1',.8,1.5)
+ for x in [5,161]:s+=circ(x,100.5,.9,'#e8bea1','none')
+ s+=txt(83,106,'BANSAL SALES',15,'#fff5e5','text-anchor="middle" font-weight="700" letter-spacing="1.65"')
+ return f'<g class="rickshaw-wordmark">{s}</g>'
+
 def rickshaw():
  s='<ellipse cx="135" cy="157" rx="157" ry="10" fill="#715746" opacity=".12"/>'
  s+=path('M-5 128H287L279 144H-5Z','#673d35',ink,2)
@@ -163,7 +170,7 @@ def rickshaw():
  s+=path('M273 52L292 47V64',stroke=ink,sw=2)+rect(287,47,9,15,'#77918d',ink,1,3)
  s+=rect(268,99,11,10,'#eedb9b',ink,1,3)+rect(274,121,8,5,'#dbaa6b',ink)
  s+=path('M17 124Q40 104 63 124M222 126Q245 105 268 126',stroke='#643f35',sw=6)
- s+=txt(58,103,'BANSAL SALES',10,'#f7dcc4','letter-spacing="1.1"')+txt(192,137,'ELECTRIC',6,cream)
+ s+=rickshaw_branding()+txt(192,137,'ELECTRIC',6,cream)
  return s
 
 def worker():
