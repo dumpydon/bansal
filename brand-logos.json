@@ -1,0 +1,62 @@
+{
+  "retrieved": "2026-10-23",
+  "note": "Original manufacturer website logos, preserved without alteration. The array defines the catalogue company-button order.",
+  "brands": [
+    {
+      "id": "perfetti",
+      "file": "assets/brands/perfetti.jpg",
+      "width": 179,
+      "height": 81,
+      "sourcePage": "https://www.perfettivanmelle.in/",
+      "sourceImage": "https://www.perfettivanmelle.in/wp-content/themes/prefetti/img/sitelogo.jpg"
+    },
+    {
+      "id": "nabati",
+      "file": "assets/brands/nabati.png",
+      "width": 440,
+      "height": 271,
+      "sourcePage": "https://www.nabatisnack.co.id/",
+      "sourceImage": "https://www.nabatisnack.co.id/assets/icons/ic-nabati.png"
+    },
+    {
+      "id": "dmb",
+      "file": "assets/brands/dmb.png",
+      "width": 217,
+      "height": 99,
+      "sourcePage": "https://dmbsweets.com/",
+      "sourceImage": "https://dmbsweets.com/wp-content/uploads/2026/04/dmb-sweets.png"
+    },
+    {
+      "id": "bikano",
+      "file": "assets/brands/bikano.svg",
+      "width": 133,
+      "height": 77,
+      "sourcePage": "https://www.bikano.com/",
+      "sourceImage": "https://bikano.com/img/home2026/logo.svg"
+    },
+    {
+      "id": "priyagold",
+      "file": "assets/brands/priyagold.jpg",
+      "width": 300,
+      "height": 181,
+      "sourcePage": "https://shop.priyagold.com/",
+      "sourceImage": "https://shop.priyagold.com/cdn/shop/files/main-logo_1.webp?v=1755931976"
+    },
+    {
+      "id": "huggies",
+      "file": "assets/brands/huggies.png",
+      "width": 130,
+      "height": 27,
+      "sourcePage": "https://www.huggies.co.in/",
+      "sourceImage": "https://www.huggies.co.in/-/media/feature/huggies/apac/in/navigation/logo/huggies-logo.png?rev=df1ab64d3a6646d1aa1b7c8df86e7538"
+    },
+    {
+      "id": "allout",
+      "file": "assets/brands/allout.png",
+      "width": 130,
+      "height": 123,
+      "sourcePage": "https://allout.in/",
+      "sourceImage": "https://allout.in/wp-content/uploads/2026/04/allout-logo-1.png"
+    }
+  ]
+}
