@@ -17,10 +17,21 @@ file and checks that the deployment directory contains only non-empty static fil
 No Python runtime is needed for deployment. Optional Python scripts regenerate the
 illustrations and the original HTML template; run `npm run build` afterward.
 
-For Cloudflare's Git integration, use the repository root, production branch `main`,
-build command `npm ci && npm run check`, and deploy command `npx wrangler deploy`.
-The Git connection must be enabled in the Cloudflare build settings before pushes
-trigger deployment; a configuration file alone does not enable automatic builds.
+Cloudflare Workers Builds is connected to `dumpydon/bansal`. Every push to `main`
+automatically checks the site and deploys it to the existing production Worker.
+Failed checks stop the deployment. Preview builds for other branches are disabled.
+
+The saved Cloudflare build settings are:
+
+- Repository root: `/`; production branch: `main`; include paths: `*`.
+- Build command: `npm ci && npm run check`.
+- Deploy command: `npx wrangler deploy`.
+- Build variables: `NODE_VERSION=22` and `SKIP_DEPENDENCY_INSTALL=true`, so the
+  explicit `npm ci` handles dependency installation from the lockfile.
+
+The Git connection and deployment credentials are managed in the Worker's
+Cloudflare Settings > Builds. The Wrangler configuration alone does not enable
+automatic builds. Local development still uses the commands below.
 
 ## Preview
 
