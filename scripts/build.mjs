@@ -1,6 +1,7 @@
 import { readFile, writeFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { renderCatalog } from './render-catalog.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -15,6 +16,13 @@ html = html.replace(/(<link rel="canonical" href=")[^"]*(")/,
   `$1${origin}/$2`);
 html = html.replace(/(<meta property="og:image" content=")[^"]*(")/,
   `$1${origin}/assets/social.jpg$2`);
+// Refresh previously cached scripts/styles as one deterministic release.
+const assetVersions = {};
+for (const file of ['app.js','catalog.js','catalog-data.js','styles.css','catalog.css']) {
+  assetVersions[file] = createHash('sha256').update(await readFile(path.join(dist,file))).digest('hex').slice(0,12);
+}
+html = html.replace(/(src|href)="(app\.js|catalog\.js|catalog-data\.js|styles\.css|catalog\.css)(?:\?[^"]*)?"/g,
+  (_,attribute,file) => `${attribute}="${file}?v=${assetVersions[file]}"`);
 await writeFile(indexPath, html);
 await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);
 await writeFile(path.join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/</loc></url></urlset>\n`);

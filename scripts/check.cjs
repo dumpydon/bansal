@@ -12,6 +12,6 @@ for(const reduced of [false,true]){
  dom.window.close();
 }
 const doc=new JSDOM(html).window.document;assert.equal(doc.querySelectorAll('h1').length,1);
-for(const el of doc.querySelectorAll('script[src],link[href]')){const u=el.getAttribute('src')||el.getAttribute('href');if(!u.startsWith('http'))assert(fs.existsSync(path.join(dist,u)),u)}
+for(const el of doc.querySelectorAll('script[src],link[href]')){const u=el.getAttribute('src')||el.getAttribute('href');if(!u.startsWith('http'))assert(fs.existsSync(path.join(dist,u.split('?')[0])),u)}
 const ids=[...doc.querySelectorAll('[id]')].map(el=>el.id);const dup=ids.filter((v,i)=>ids.indexOf(v)!==i);console.log('Duplicate IDs:',[...new Set(dup)]);assert.equal(dup.length,0,'Duplicate IDs');
 console.log('PASS: menu, Escape, motion pause/resume, reduced motion, anchors, image alternatives and local assets.');
