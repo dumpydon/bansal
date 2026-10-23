@@ -99,7 +99,7 @@ The carousel visits photographed products company by company, loops to the begin
 pauses when its section is offscreen or the catalogue dialog is open, and respects
 reduced-motion preferences. Keyboard-friendly previous/next and pause controls are included.
 Five products appear at once: the current product in the centre, with two preceding
-and two following products. The neighbouring pairs use 84% and 68% of the centre size.
+and two following products. The neighbouring pairs use 82% and 60% of the centre size.
 Select any side product to bring it into focus; the centre image opens
 its official product page. Selecting a product or using the navigation arrows holds
 that selection for seven seconds, then returns to the normal two-second rotation,
