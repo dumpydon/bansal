@@ -15,9 +15,11 @@
         <div class="catalog-stage">
           <div class="catalog-stage-top"><span id="showcase-brand">{{FIRST_BRAND}}</span><span id="showcase-count">01 / {{FIRST_BRAND_TOTAL}}</span></div>
           <div class="catalog-image-area" id="catalog-image-area">
-            <button class="catalog-peek catalog-peek-prev" type="button" aria-label="Previous product" tabindex="-1"><img src="{{PREV_IMAGE}}" alt="" width="160" height="200" aria-hidden="true"></button>
+            <button class="catalog-peek catalog-peek-far catalog-peek-far-prev" data-offset="-2" type="button" aria-label="Show product two places before"><img src="{{PREV_SECOND_IMAGE}}" alt="" width="240" height="280" aria-hidden="true" decoding="async"></button>
+            <button class="catalog-peek catalog-peek-prev" data-offset="-1" type="button" aria-label="Show previous product"><img src="{{PREV_IMAGE}}" alt="" width="240" height="280" aria-hidden="true" decoding="async"></button>
             <a class="catalog-featured" id="catalog-featured" href="{{FIRST_URL}}" target="_blank" rel="noopener noreferrer"><img id="catalog-featured-image" src="{{FIRST_IMAGE}}" alt="{{FIRST_NAME}}" width="650" height="650" decoding="async"></a>
-            <button class="catalog-peek catalog-peek-next" type="button" aria-label="Next product" tabindex="-1"><img src="{{NEXT_IMAGE}}" alt="" width="160" height="200" aria-hidden="true"></button>
+            <button class="catalog-peek catalog-peek-next" data-offset="1" type="button" aria-label="Show next product"><img src="{{NEXT_IMAGE}}" alt="" width="240" height="280" aria-hidden="true" decoding="async"></button>
+            <button class="catalog-peek catalog-peek-far catalog-peek-far-next" data-offset="2" type="button" aria-label="Show product two places ahead"><img src="{{NEXT_SECOND_IMAGE}}" alt="" width="240" height="280" aria-hidden="true" decoding="async"></button>
           </div>
           <div class="catalog-product-copy"><span id="showcase-family">{{FIRST_CATEGORY}}</span><h3 id="showcase-name">{{FIRST_NAME}}</h3><a id="showcase-link" class="catalog-official" href="{{FIRST_CATALOGUE}}" target="_blank" rel="noopener noreferrer">View official catalogue <span aria-hidden="true">↗</span></a></div>
         </div>

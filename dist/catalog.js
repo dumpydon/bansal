@@ -7,6 +7,7 @@
   const categoryNames = { all: 'All products', confectionery: 'Confectionery', biscuits: 'Biscuits & wafers', savouries: 'Sweets & savouries', baby: 'Baby care', home: 'Home care', extras: 'Drinks & more' };
   const section = $('#range'), dialog = $('#catalog-dialog'), stage = $('#catalog-featured');
   const featuredImage = $('#catalog-featured-image'), progress = $('#catalog-progress-fill').parentElement;
+  const imageArea = $('#catalog-image-area'), neighbours = [...imageArea.querySelectorAll('.catalog-peek')];
   const playButton = $('#catalog-play'), announcement = $('#catalog-announcement');
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let category = 'all', pool = photoPool('all'), index = 0;
@@ -21,6 +22,7 @@
     return items;
   }
   function current() { return pool[index]; }
+  function wrapIndex(position) { return ((position % pool.length) + pool.length) % pool.length; }
   function announce() { announcement.textContent = `${brands.get(current().brand).name}: ${current().name}`; }
   function schedule() {
     clearTimeout(timer);timer = null;
@@ -50,10 +52,11 @@
     $('#showcase-link').innerHTML = `View ${escape(brand.name)} catalogue <span aria-hidden="true">↗</span>`;
     $('#catalog-showing').textContent = category === 'all' ? 'Exploring all seven companies · Click a company to browse its catalogue' : `${categoryNames[category]} · ${pool.length} photographed products`;
     document.querySelectorAll('.catalog-brand').forEach(button => button.classList.toggle('active', button.dataset.brand===product.brand));
-    for (const [selector, delta] of [['.catalog-peek-prev',-1],['.catalog-peek-next',1]]) {
-      const neighbour=pool[(index+delta+pool.length)%pool.length], button=$(selector);
+    for (const button of neighbours) {
+      const delta = Number(button.dataset.offset), neighbour = pool[wrapIndex(index + delta)];
       button.querySelector('img').src = neighbour.image;
-      button.setAttribute('aria-label', `${delta<0?'Previous':'Next'} product: ${neighbour.name}`);
+      const position = delta < 0 ? (delta === -1 ? 'Previous product' : 'Two products before') : (delta === 1 ? 'Next product' : 'Two products ahead');
+      button.setAttribute('aria-label', `Show ${brands.get(neighbour.brand).name} ${neighbour.name} in focus (${position.toLowerCase()})`);
     }
     stage.classList.remove('arrive');void stage.offsetWidth;
     if (!motion.matches) stage.classList.add('arrive');
@@ -65,13 +68,14 @@
       const caption=document.createElement('small');caption.textContent='View the official product';fallback.append(caption);stage.append(fallback);
     }
   });
-  function move(delta, manual=true) { index=(index+delta+pool.length)%pool.length;if(manual)userPaused=true;render();if(manual)announce();schedule(); }
+  function move(delta, manual=true) { index=wrapIndex(index+delta);if(manual)userPaused=true;render();if(manual)announce();schedule(); }
   $('#catalog-prev').addEventListener('click',()=>move(-1));$('#catalog-next').addEventListener('click',()=>move(1));
-  $('.catalog-peek-prev').addEventListener('click',()=>move(-1));$('.catalog-peek-next').addEventListener('click',()=>move(1));
+  neighbours.forEach(button => button.addEventListener('click', () => move(Number(button.dataset.offset))));
   playButton.addEventListener('click',()=>{userPaused=!userPaused;schedule();});
-  $('#catalog-image-area').addEventListener('pointerenter',()=>{hovering=true;schedule();});
-  $('#catalog-image-area').addEventListener('pointerleave',()=>{hovering=false;schedule();});
-  stage.addEventListener('focus',()=>{imageFocused=true;schedule();});stage.addEventListener('blur',()=>{imageFocused=false;schedule();});
+  imageArea.addEventListener('pointerenter',()=>{hovering=true;schedule();});
+  imageArea.addEventListener('pointerleave',()=>{hovering=false;schedule();});
+  imageArea.addEventListener('focusin',()=>{imageFocused=true;schedule();});
+  imageArea.addEventListener('focusout',event=>{if(imageArea.contains(event.relatedTarget))return;imageFocused=false;schedule();});
   document.addEventListener('visibilitychange',schedule);
   motion.addEventListener('change',()=>{if(motion.matches)userPaused=true;schedule();});
   if ('IntersectionObserver' in window) new IntersectionObserver(entries=>{inView=entries.some(e=>e.isIntersecting);schedule();},{threshold:.1}).observe(section);

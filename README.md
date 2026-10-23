@@ -89,6 +89,10 @@ company/catalogue browsing, search, pagination and the two-second product carous
 The carousel visits photographed products company by company, loops to the beginning,
 pauses when its section is offscreen or the catalogue dialog is open, and respects
 reduced-motion preferences. Keyboard-friendly previous/next and pause controls are included.
+Five products appear at once: the current product in the centre, with two preceding
+and two following products. The neighbouring pairs use a gentle 92% and 84% size
+progression. Select any side product to bring it into focus; the centre image opens
+its official product page. Keyboard focus on any of the five pauses the slideshow.
 Brand buttons open their lists; the category arrow links open the official manufacturer
 catalogues directly (the biscuit arrow opens Priyagold).
 
