@@ -3,20 +3,20 @@
   "note": "Original manufacturer website logos, preserved without alteration. The array defines the catalogue company-button order.",
   "brands": [
     {
-      "id": "perfetti",
-      "file": "assets/brands/perfetti.jpg",
-      "width": 179,
-      "height": 81,
-      "sourcePage": "https://www.perfettivanmelle.in/",
-      "sourceImage": "https://www.perfettivanmelle.in/wp-content/themes/prefetti/img/sitelogo.jpg"
-    },
-    {
       "id": "nabati",
       "file": "assets/brands/nabati.png",
       "width": 440,
       "height": 271,
       "sourcePage": "https://www.nabatisnack.co.id/",
       "sourceImage": "https://www.nabatisnack.co.id/assets/icons/ic-nabati.png"
+    },
+    {
+      "id": "perfetti",
+      "file": "assets/brands/perfetti.jpg",
+      "width": 179,
+      "height": 81,
+      "sourcePage": "https://www.perfettivanmelle.in/",
+      "sourceImage": "https://www.perfettivanmelle.in/wp-content/themes/prefetti/img/sitelogo.jpg"
     },
     {
       "id": "dmb",

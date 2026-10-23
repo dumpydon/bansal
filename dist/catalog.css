@@ -21,3 +21,6 @@
 
 /* Compact category labels give the five-product showcase more room. */
 @media(min-width:761px){.catalog-category-row{gap:6px}.catalog-category-row button{flex:0 1 auto;white-space:nowrap}.catalog-category-row a,.catalog-category-row>span{flex:0 0 36px;width:36px;margin-left:auto}.catalog-sidebar-bottom .button{gap:16px}}
+
+/* Enlarge only the Perfetti artwork inside its existing white logo tile. */
+.catalog-brand[data-brand="perfetti"] .catalog-brand-logo{overflow:hidden}.catalog-brand[data-brand="perfetti"] .catalog-brand-logo img{transform:scale(1.2);transform-origin:center}

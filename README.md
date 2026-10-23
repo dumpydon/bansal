@@ -109,8 +109,9 @@ preferences are preserved. Keyboard focus without a selection pauses the slidesh
 Brand buttons open their lists; the category arrow links open the official manufacturer
 catalogues directly (the biscuit arrow opens Priyagold).
 Each company button includes its original manufacturer logo above the existing name.
-`brand-logos.json` records the original image URLs and display order, with Priyagold
-before Huggies. The logos are local assets; the company-name font sizes are preserved.
+`brand-logos.json` records the original image URLs and display order, with Nabati before
+Perfetti Van Melle and Priyagold before Huggies. The Perfetti artwork is displayed at 1.2×
+inside its original white tile. The logos are local assets; the company-name font sizes are preserved.
 
 `design/catalog-section.html` and `scripts/render-catalog.mjs` generate the catalogue
 section during `npm run build`. `scripts/sync-catalog.py` regenerates optimized WebP images
