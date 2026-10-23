@@ -90,7 +90,11 @@ Nabati's public international catalogue is labelled separately from confirmed In
 This is a manufacturer-range catalogue, not an assertion of real-time Bansal inventory.
 
 `dist/catalog-data.js` is the deployed, compact data snapshot. `dist/catalog.js` controls
-company/catalogue browsing, search, pagination and the two-second product carousel.
+company/catalogue browsing, search, continuous product lists and the two-second product carousel.
+Every matching product is rendered together for each company, category and search,
+including the full combined catalogue. There is no "Show more" step. The "Back to top"
+button follows the final product at the bottom of the single scrolling catalogue body.
+Product images retain native lazy loading without withholding any product cards.
 The carousel visits photographed products company by company, loops to the beginning,
 pauses when its section is offscreen or the catalogue dialog is open, and respects
 reduced-motion preferences. Keyboard-friendly previous/next and pause controls are included.
@@ -120,7 +124,7 @@ and are omitted from the photographic slideshow. `catalog-image-report.json` rec
 these gaps. Generic international image labels were refined by inspecting the actual packs.
 
 `npm run check` now additionally checks the complete carousel cycle, two-second timing,
-company/category filters, modal search and pagination, focus restoration, pause/resume,
+company/category filters, complete modal results, search, back-to-top, focus restoration, pause/resume,
 reduced-motion behaviour, product IDs and every referenced local image. The catalogue
 was also exercised in the in-app browser at desktop and phone widths; a mobile grid
 minimum-width issue was found and corrected. Automatic redeployment from GitHub remains

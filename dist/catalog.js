@@ -13,7 +13,7 @@
   let category = 'all', pool = photoPool('all'), index = 0;
   let userPaused = motion.matches, inView = !('IntersectionObserver' in window), hovering = false, imageFocused = false, timer = null;
   let selectionUntil = 0, allowHoverPlayback = false, allowFocusPlayback = false;
-  let opener = null, shown = 24, filtered = [];
+  let opener = null;
   const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   function photoPool(selected) {
@@ -111,14 +111,12 @@
     article.querySelector('img')?.addEventListener('error',e=>{const span=document.createElement('span');span.className='catalog-image-fallback';span.textContent='View official product';e.target.replaceWith(span);},{once:true});
     return article;
   }
-  function appendCards(start) {
-    const fragment=document.createDocumentFragment();filtered.slice(start,shown).forEach(p=>fragment.append(card(p)));grid.append(fragment);
-    $('#catalog-more').hidden=shown>=filtered.length;
-  }
   function filterCatalog() {
     const query=search.value.toLocaleLowerCase().trim();
-    filtered=data.products.filter(p=>(brandFilter.value==='all'||p.brand===brandFilter.value)&&(categoryFilter.value==='all'||p.category===categoryFilter.value)&&(!query||`${p.name} ${brands.get(p.brand).name} ${p.detail} ${categoryNames[p.category]}`.toLocaleLowerCase().includes(query)));
-    shown=24;grid.replaceChildren();appendCards(0);
+    const filtered=data.products.filter(p=>(brandFilter.value==='all'||p.brand===brandFilter.value)&&(categoryFilter.value==='all'||p.category===categoryFilter.value)&&(!query||`${p.name} ${brands.get(p.brand).name} ${p.detail} ${categoryNames[p.category]}`.toLocaleLowerCase().includes(query)));
+    const fragment=document.createDocumentFragment();
+    filtered.forEach(product=>fragment.append(card(product)));
+    grid.replaceChildren(fragment);
     if(!filtered.length){const empty=document.createElement('p');empty.className='catalog-empty';empty.textContent='No matches yet. Try another name or choose a different company.';grid.append(empty);}
     $('#catalog-result-count').textContent=`${filtered.length} ${filtered.length===1?'product':'products'}${query?' matching your search':''}`;
     const brand=brands.get(brandFilter.value),official=$('#catalog-dialog-official');official.hidden=!brand;
@@ -139,7 +137,6 @@
   dialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();closeCatalog();}});
   dialog.addEventListener('click',event=>{if(event.target===dialog)closeCatalog();});
   search.addEventListener('input',filterCatalog);brandFilter.addEventListener('change',filterCatalog);categoryFilter.addEventListener('change',filterCatalog);
-  $('#catalog-more').addEventListener('click',()=>{const start=shown;shown+=24;appendCards(start);$('#catalog-result-count').textContent=`Showing ${Math.min(shown,filtered.length)} of ${filtered.length} products`;});
   $('#catalog-top').addEventListener('click',()=>{dialog.querySelector('.catalog-dialog-body').scrollTo?.({top:0,behavior:motion.matches?'instant':'smooth'});search.focus({preventScroll:true});});
   render();schedule();
 })();
