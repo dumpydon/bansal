@@ -132,6 +132,7 @@ def shop(x,y,w,label,warehouse=False):
   for i in range(7):s+=rect(25+i*(w-54)/7,140,9,16,['#c79655','#9a665e','#798269'][i%3],cream,.5,1)
   s+=rect(24,171,w-48,25,'#9b7760')
  # striped awning
+ if warehouse:s+=path(f'M2 119H{w+2}L{w-4} 131H8Z','#4f342b','none',extra='opacity=".14"')
  for j in range(int(w/15)):
   s+=path(f'M{j*15} 100h15l5 20h-15Z',cream if j%2 else dark,dark,.5)
  s+=path(f'M-2 121H{w+6}',stroke=dark,sw=2)+rect(-9,199,w+18,7,cream)
@@ -220,11 +221,13 @@ def make_svg(t=0):
  # street paving perspective
  for yy in [650,674,709,760,825]:body+=path(f'M0 {yy}H1600',stroke='#d8c5ab',sw=.7)
  for xx in range(-600,2300,150):body+=path(f'M{800+(xx-800)*.6} 632L{xx} 850',stroke='#d8c5ab',sw=.7)
- body+=shop(22,410,300,'BANSAL SALES CORPORATION',True)+shop(1320,413,160,'GENERAL STORE')+shop(1487,420,139,'KIRANA')
- # warehouse parapet and crates at dispatch threshold
+ # Enlarge the complete Bansal base around its street-level footing, keeping the skyline and people at their existing scale.
+ warehouse=shop(22,410,300,'BANSAL SALES CORPORATION',True)
  for i in range(2):
-  for j in range(2-i):body+=carton(306+i*42,590-j*30,38,30)
- body+=path('M7 615H330L343 626H0Z','#d1b59a',line)
+  for j in range(2-i):warehouse+=carton(306+i*42,590-j*30,38,30)
+ warehouse+=path('M7 615H330L343 626H0Z','#d1b59a',line)
+ body+=f'<g id="bansal-storefront" transform="translate(0 626) scale(1.1) translate(0 -626)">{warehouse}</g>'
+ body+=shop(1320,413,160,'GENERAL STORE')+shop(1487,420,139,'KIRANA')
  # a tree with branching, differentiated foliage clusters
  branches=path('M1254 622Q1248 550 1256 489M1253 564L1221 530M1252 547L1286 517',stroke='#8c8164',sw=6)
  for xx,yy,rr in [(1220,513,25),(1251,483,34),(1288,502,32),(1250,524,30),(1210,493,22)]:
