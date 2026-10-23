@@ -25,11 +25,45 @@
   });
   updatePortraitMotion();
   if('IntersectionObserver' in window&&!reduced.matches){document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}),{threshold:.08});document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));}
-  const vehicle = $('#vehicle'), replay = $('#motion'), scene = $('.hero-scene');
+  const vehicle = $('#vehicle'), carrier = $('#carrier'), replay = $('#motion'), scene = $('.hero-scene');
+  const walkingLegs = [...carrier.querySelectorAll('.leg-front, .leg-back')];
+  const wheelSpokes = [...vehicle.querySelectorAll('.spokes')];
   const canAnimate = typeof vehicle.animate === 'function';
+  const journeyDuration = 14000;
   const startRatio = 0.15;
-  let animation = null, wheels = [], armed = true;
+  let animation = null, companions = [], armed = true;
   let sceneVisible = false, visibleRatio = 0, pausedForTab = false;
+
+  // Restore the complete approved 14-second study: carry, load, travel, arrival.
+  // Sampling its original poses keeps the shared SVG timeline sharp at every size.
+  function journeyPose(seconds) {
+    const travel = Math.max(0, Math.min(1, (seconds - 5) / 6));
+    const eased = travel * travel * (3 - 2 * travel);
+    const x = 505 + 590 * eased;
+    const workerX = seconds < 5
+      ? 390 + Math.min(seconds / 4, 1) * 90
+      : x + 130 + 80 * Math.max(0, Math.min(1, (seconds - 11) / 3));
+    const workerY = 728 + (seconds < 4 ? Math.sin(seconds * 6) * 1.5 : 0);
+    return {
+      vehicle: `translate(${x}px, 573px)`,
+      carrier: `translate(${workerX}px, ${workerY}px)`,
+      opacity: seconds < 4.6 || seconds >= 11 ? 1 : 0,
+      wheel: `rotate(${eased * 1408}deg)`,
+      legs: [0, 1].map(i => `rotate(${seconds < 4 ? Math.sin(seconds * 6 + i * Math.PI) * 7 : 0}deg)`)
+    };
+  }
+  const poses = Array.from({ length: 281 }, (_, i) => ({ offset: i / 280, ...journeyPose(i / 20) }));
+  function setStillPose(atEnd = false) {
+    const pose = journeyPose(atEnd ? 14 : 0);
+    vehicle.style.transform = pose.vehicle;
+    carrier.style.transform = pose.carrier;
+    carrier.style.opacity = pose.opacity;
+    wheelSpokes.forEach(wheel => { wheel.style.transform = pose.wheel; });
+    walkingLegs.forEach((leg, i) => {
+      leg.style.transformOrigin = '0px -65px';
+      leg.style.transform = pose.legs[i];
+    });
+  }
 
   function setJourneyControl(state) {
     const labels = {
@@ -45,12 +79,12 @@
   function pauseJourney() {
     if (animation?.playState !== 'running') return;
     animation.pause();
-    wheels.forEach(wheel => wheel.pause());
+    companions.forEach(track => track.pause());
     setJourneyControl('paused');
   }
   function resumeJourney() {
     animation.play();
-    wheels.forEach(wheel => wheel.play());
+    companions.forEach(track => track.play());
     setJourneyControl('running');
   }
   function cancelJourney() {
@@ -58,27 +92,29 @@
       animation.onfinish = null;
       animation.cancel();
     }
-    wheels.forEach(wheel => wheel.cancel());
+    companions.forEach(track => track.cancel());
     animation = null;
-    wheels = [];
+    companions = [];
   }
   function startJourney() {
     cancelJourney();
     pausedForTab = false;
     if (reduced.matches || !canAnimate) {
-      vehicle.setAttribute('transform', 'translate(645 573)');
+      setStillPose(true);
       setJourneyControl('still');
       return;
     }
-    vehicle.setAttribute('transform', 'translate(505 573)');
-    const timing = { duration: 3900, easing: 'cubic-bezier(.35,0,.2,1)', fill: 'forwards' };
-    animation = vehicle.animate([
-      { transform: 'translate(505px, 573px)' },
-      { transform: 'translate(645px, 573px)' }
-    ], timing);
-    wheels = [...vehicle.querySelectorAll('.spokes')].map(wheel => wheel.animate([
-      { transform: 'rotate(0deg)' }, { transform: 'rotate(334deg)' }
-    ], timing));
+    setStillPose();
+    const timing = { duration: journeyDuration, easing: 'linear', fill: 'forwards' };
+    animation = vehicle.animate(poses.map(pose => ({ offset: pose.offset, transform: pose.vehicle })), timing);
+    companions = [
+      carrier.animate(poses.map(pose => ({ offset: pose.offset, transform: pose.carrier, opacity: pose.opacity })), timing),
+      ...wheelSpokes.map(wheel => wheel.animate(poses.map(pose => ({ offset: pose.offset, transform: pose.wheel })), timing)),
+      ...walkingLegs.map((leg, i) => leg.animate(poses.map(pose => ({ offset: pose.offset, transform: pose.legs[i] })), timing))
+    ];
+    // All parts share one start time, including after a replay or interruption.
+    const startTime = document.timeline?.currentTime;
+    if (startTime != null) [animation, ...companions].forEach(track => { track.startTime = startTime; });
     const current = animation;
     current.onfinish = () => {
       if (animation === current) setJourneyControl('finished');
@@ -113,6 +149,7 @@
     const ratio = area > 0 ? visibleHeight * visibleWidth / area : 0;
     updateSceneVisibility(ratio > 0, ratio);
   }
+  if (reduced.matches || !canAnimate) setStillPose(true);
   if ('IntersectionObserver' in window) {
     const headerHeight = Math.round($('.header')?.getBoundingClientRect().height || 0);
     const sceneObserver = new IntersectionObserver(entries => {
@@ -162,7 +199,7 @@
       cancelJourney();
       pausedForTab = false;
       armed = true;
-      vehicle.setAttribute('transform', 'translate(645 573)');
+      setStillPose(true);
       document.documentElement.classList.remove('js-motion');
       setJourneyControl('finished');
     } else playOnEntry();

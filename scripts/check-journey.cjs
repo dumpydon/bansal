@@ -23,6 +23,7 @@ function setup({ reduced = false, observer = true, visibleOnLoad = true } = {}) 
     unobserve(target) { this.targets.delete(target); }
   };
   const runs = [];
+  Object.defineProperty(d, 'timeline', { value: { currentTime: 500 } });
   w.Element.prototype.animate = function (frames, options) {
     const animation = {
       target: this, frames, options, playState: 'running',
@@ -37,8 +38,9 @@ function setup({ reduced = false, observer = true, visibleOnLoad = true } = {}) 
   const vehicle = d.querySelector('#vehicle'), button = d.querySelector('#motion');
   const journeys = () => runs.filter(a => a.target === vehicle);
   const activeWheels = () => runs.filter(a => a.target.matches('.spokes') && a.playState !== 'idle');
+  const activeParts = () => runs.filter(a => a.playState !== 'idle');
   return {
-    dom, w, d, button, media, journeys, activeWheels,
+    dom, w, d, button, media, journeys, activeWheels, activeParts,
     enter(ratio = 0.5) {
       const io = observers.find(o => o.targets.has(scene)); assert(io, 'Scene must remain observed for repeat visits');
       io.callback([{ target: scene, isIntersecting: ratio > 0, intersectionRatio: ratio }]);
@@ -52,8 +54,22 @@ const t = setup();
 assert.equal(t.journeys().length, 0, 'Do not run unseen animation before visibility is known');
 t.enter(0); assert.equal(t.journeys().length, 0);
 t.enter(0.05); assert.equal(t.journeys().length, 0, 'Wait for a meaningful amount of the scene');
-t.enter(); const first = t.journeys()[0]; assert(first); assert.equal(first.options.duration, 3900);
+t.enter(); const first = t.journeys()[0]; assert(first); assert.equal(first.options.duration, 14000, 'Play the complete original sequence');
 assert.equal(first.frames[0].transform, 'translate(505px, 573px)');
+assert.equal(t.activeParts().length, 6, 'Animate vehicle, carrier, both wheels and both walking legs');
+assert(t.activeParts().every(a => a.options.duration === 14000 && a.startTime === 500), 'All parts share the full timeline and a synchronized start');
+const carrier = t.activeParts().find(a => a.target.id === 'carrier');
+const frameAt = (track, seconds) => track.frames.find(frame => Math.abs(frame.offset - seconds / 14) < 0.00001);
+assert.equal(frameAt(first, 3).transform, 'translate(505px, 573px)', 'Rickshaw waits while the worker prepares the dispatch');
+assert.match(frameAt(carrier, 3).transform, /^translate\(457\.5px, /, 'Worker carries the carton towards the vehicle');
+assert.equal(frameAt(carrier, 4.6).opacity, 0, 'Retain the original loading transition');
+assert.equal(frameAt(first, 5).transform, 'translate(505px, 573px)', 'Travel starts after preparation and loading');
+assert.equal(frameAt(first, 8).transform, 'translate(800px, 573px)', 'Vehicle crosses the full market route');
+assert.equal(frameAt(first, 11).transform, 'translate(1095px, 573px)', 'Vehicle reaches the shopfront');
+assert.equal(frameAt(carrier, 11).opacity, 1, 'Carrier returns for the arrival stage');
+assert.equal(frameAt(carrier, 14).transform, 'translate(1305px, 728px)', 'Complete the final approach to the shop');
+assert(t.activeWheels().every(wheel => wheel.frames.at(-1).transform === 'rotate(1408deg)'), 'Wheels turn for the full route');
+assert(t.activeParts().filter(a => a.target.matches('.leg-front,.leg-back')).every(leg => leg.frames.some(frame => frame.transform !== 'rotate(0deg)')), 'Walking legs move during preparation');
 t.enter(0.7); t.enter(0.3); assert.equal(t.journeys().length, 1, 'No repeated restart while visible');
 first.finish(); assert.match(t.button.textContent, /Replay/);
 t.enter(0.8); assert.equal(t.journeys().length, 1, 'A completed visit plays only once');
@@ -61,11 +77,12 @@ t.enter(0); t.enter(0.04); assert.equal(t.journeys().length, 1);
 t.enter(0.4); const second = t.journeys()[1]; assert(second, 'Re-entry must replay after completion');
 assert.equal(first.playState, 'idle', 'Remove previous finished animation');
 assert.equal(t.activeWheels().length, 2, 'Keep only one pair of wheel timelines');
+assert.equal(t.activeParts().length, 6, 'Replays remove all previous body and wheel timelines');
 t.button.click(); assert.equal(second.playState, 'paused');
-assert(t.activeWheels().every(a => a.playState === 'paused'));
+assert(t.activeParts().every(a => a.playState === 'paused'), 'Pause the complete cast together');
 t.enter(0.6); assert.equal(second.playState, 'paused', 'Scroll within the scene respects manual pause');
 t.button.click(); assert.equal(second.playState, 'running');
-assert(t.activeWheels().every(a => a.playState === 'running'));
+assert(t.activeParts().every(a => a.playState === 'running'), 'Resume all six tracks together');
 t.enter(0); assert.equal(second.playState, 'paused', 'Leaving the scene stops invisible work');
 t.enter(0.5); const third = t.journeys()[2]; assert(third);
 assert.equal(second.playState, 'idle', 'Re-entry cancels the unfinished previous visit');
@@ -75,7 +92,9 @@ t.setHidden(false); assert.equal(third.playState, 'running');
 assert.equal(t.journeys().length, 3, 'Tab visibility resumes the same visit');
 t.button.click(); t.setHidden(true); t.setHidden(false); assert.equal(third.playState, 'paused', 'Tab changes respect user pause');
 t.enter(0); t.enter(); assert.equal(t.journeys().length, 4, 'Another full exit and return always starts a new visit');
-t.media.matches = true; t.media.listener(); assert(t.journeys().every(a => a.playState === 'idle'));
+t.media.matches = true; t.media.listener(); assert.equal(t.activeParts().length, 0, 'Reduced motion cancels the complete timeline');
+assert.equal(t.d.querySelector('#vehicle').style.transform, 'translate(1095px, 573px)');
+assert.equal(t.d.querySelector('#carrier').style.transform, 'translate(1305px, 728px)');
 t.enter(0); t.enter(); assert.equal(t.journeys().length, 4, 'Reduced motion suppresses automatic travel');
 t.media.matches = false; t.media.listener(); assert.equal(t.journeys().length, 5);
 t.dom.window.close();
@@ -90,4 +109,4 @@ for (const visibleOnLoad of [true, false]) {
   assert.equal(fallback.journeys().length, visibleOnLoad ? 1 : 0, 'Fallback checks actual initial visibility');
   fallback.dom.window.close();
 }
-console.log('PASS: hero plays once per visit, waits offscreen, restarts after every exit, cleans up wheel timelines, retains manual pause/replay and supports reduced motion.');
+console.log('PASS: complete 14s carry/load/travel/arrival timeline, synchronized cast and wheels, full route endpoints, once-per-visit playback, repeated re-entry, pause/replay, tab visibility and reduced motion.');

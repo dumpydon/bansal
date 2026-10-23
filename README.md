@@ -30,13 +30,18 @@ No framework, backend, account, checkout or enquiry form is required.
 
 ## What is included
 
-- Original layered Jaipur SVG panorama with a short electric cargo-vehicle arrival, replay and pause controls.
+- Original layered Jaipur SVG panorama with the complete 14-second delivery sequence:
+  preparation, the original loading transition, travel across the market and arrival
+  at the shopfront. It restores the approved motion study's route and character
+  movements, with synchronized carrier, walking legs, vehicle and wheel timelines.
+  The original vector artwork stays sharp rather than scaling up a raster export.
 - The hero delivery scene plays once on each visible visit. It waits when the page opens
   farther down, re-arms after the illustration fully leaves the viewport, and starts
   again from the beginning on return. Small scroll movements within the scene do not
   restart it. Reduced-motion preferences suppress automatic movement; manual controls
-  remain available. Vehicle and wheel timelines pause together when offscreen or when
-  the browser tab is hidden.
+  remain available. All character, vehicle and wheel timelines pause together when
+  offscreen or when the browser tab is hidden. The full street stays in view on phones
+  so the shopfront arrival is not cropped away.
 - Original warehouse/team, gateway and product-category artwork.
 - Enlarged founder profiles with original, gently animated portrait placeholders,
   a motion pause control and a static reduced-motion alternative. The illustrations
