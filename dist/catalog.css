@@ -20,4 +20,4 @@
 .catalog-brand-logo{display:flex;align-items:center;justify-content:center;width:min(100%,132px);height:76px;padding:10px;background:#fff;border:1px solid #e2cdb8;border-radius:8px}.catalog-brand-logo img{display:block;max-width:100%;width:100%;height:100%;object-fit:contain}.catalog-brand-name{align-self:center}
 
 /* Compact category labels give the five-product showcase more room. */
-@media(min-width:761px){.catalog-category-row{gap:6px}.catalog-category-row button{flex:0 1 auto;white-space:nowrap}.catalog-category-row a,.catalog-category-row>span{flex:0 0 36px;width:36px}.catalog-sidebar-bottom .button{gap:16px}}
+@media(min-width:761px){.catalog-category-row{gap:6px}.catalog-category-row button{flex:0 1 auto;white-space:nowrap}.catalog-category-row a,.catalog-category-row>span{flex:0 0 36px;width:36px;margin-left:auto}.catalog-sidebar-bottom .button{gap:16px}}
