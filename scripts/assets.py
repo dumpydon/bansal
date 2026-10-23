@@ -11,7 +11,7 @@ svg=svg.replace('viewBox="0 0 1600 850"','viewBox="0 155 1600 620"').replace('he
 # All other illustrations reuse the approved architectural language.
 def wrap(body,vb):return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}">{body}</svg>'
 # People vignette: preparation and dispatch, detailed warehouse and people.
-s=rect(0,0,700,560,'#eddbca','none')+circ(490,190,135,'#f8eddf','none')+group(shop(0,0,300,'BANSAL SALES',True),38,215,.95)+group(worker(),345,510,1)+group(rickshaw(),400,365,1)
+s=rect(0,0,700,560,'#eddbca','none')+circ(490,190,135,'#f8eddf','none')+group(shop(0,0,300,'BANSAL SALES',True),38,215,.95)+group(worker(),345,510,.9)+group(rickshaw(),400,365,1)
 s+=path('M0 493H700',stroke='#ba9476')
 (A/'people.svg').write_text(wrap(s,'0 0 700 560'))
 # Gateway composition for the contact section.

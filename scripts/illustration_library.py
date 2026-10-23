@@ -104,12 +104,24 @@ def hillfort():
  s+=descending_parcota()
  return s
 
+def warehouse_branding(w):
+ # Match the delivery vehicle's ivory lettering and dark terracotta nameplate.
+ s=rect(7,66,w-14,34,'#7f3e35','#e8bea1',.9,1.5)+rect(9,68,w-18,30,'none','#e8bea1',.45,1)
+ mark=path('M6 65V28Q6 18 17 18Q17 6 30 3Q43 6 43 18Q54 18 54 28V65ZM15 65V32Q15 25 22 25Q23 15 30 13Q37 15 38 25Q45 25 45 32V65M2 65h56M12 67h36',stroke='#fff5e5',sw=2.2)
+ mark+=path('M23 54V33h8q11 0 7 8q8 11-7 13ZM23 42h10M29 33v21',stroke='#fff5e5',sw=2.2)
+ s+=group(mark,18,67,.42)+path('M54 72V94',stroke='#e8bea1',sw=.7)
+ s+=txt(w/2+18,83,'BANSAL SALES',19,'#fff5e5','text-anchor="middle" font-weight="700" letter-spacing="1.3"')
+ s+=txt(w/2+18,95,'CORPORATION',10,'#f7dcc4','text-anchor="middle" letter-spacing="2"')
+ for xx in [13,w-13]:s+=circ(xx,83,.9,'#e8bea1','none')
+ return f'<g class="warehouse-wordmark">{s}</g>'
+
 def shop(x,y,w,label,warehouse=False):
  s=rect(0,0,w,200,pink)+rect(4,4,w-8,193,'none',cream)+rect(-5,-8,w+10,8,dark)+rect(-8,-13,w+16,5,cream)
  for j in range(int(w/35)):
   s+=window(9+j*35,13,21,30)
- s+=rect(-5,59,w+10,6,cream)+rect(8,70,w-16,29,cream)
- s+=txt(w/2,89,label,13,dark,'text-anchor="middle" letter-spacing="1.3"')
+ s+=rect(-5,59,w+10,6,cream)
+ if warehouse:s+=warehouse_branding(w)
+ else:s+=rect(8,70,w-16,29,cream)+txt(w/2,89,label,13,dark,'text-anchor="middle" letter-spacing="1.3"')
  s+=arch(16,105,w-32,95,'#624d42')
  if warehouse:
   for yy in [111,132,153,174]:s+=rect(23,yy,w-46,3,'#987a55',ink,.5)
@@ -222,7 +234,7 @@ def make_svg(t=0):
  # birds at a quiet scale
  for xx,yy in [(480,208),(1065,176),(1412,302),(979,119)]:body+=path(f'M{xx} {yy}q6 -7 12 0q6 -7 12 0',stroke=line,sw=1.5,extra='class="bird"')
  body+=f'<g id="vehicle" transform="translate({vx} 573)">{rickshaw()}</g>'
- body+=f'<g id="carrier" opacity="{visible}" transform="translate({wx} {728+bob})">{worker()}</g>'
+ body+=f'<g id="carrier" opacity="{visible}" transform="translate({wx} {728+bob})"><g class="carrier-person" transform="scale(.9)">{worker()}</g></g>'
  # shaded retailer at final threshold, differently dressed
  body+='<g id="retailer" transform="translate(1460 728) scale(-.9 .9)">'+worker().replace('#637d72','#b08a64').replace('#a6b5a2','#d4b895')+'</g>'
  body+=rect(0,0,1600,850,'url(#paper)','none')
