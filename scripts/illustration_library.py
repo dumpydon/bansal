@@ -55,17 +55,50 @@ def albert():
  for k in range(4):s+=rect(95-k*12,203+k*5,170+k*24,5)
  return s
 
+def parcota_crown(x,y,w=13,h=11):
+ # Curved shoulders and a pointed crown, inspired by Jaipur's painted parapets.
+ d=f'M{x} {y+2}V{y-h*.37}Q{x} {y-h*.65} {x+w*.5} {y-h}Q{x+w} {y-h*.65} {x+w} {y-h*.37}V{y+2}Z'
+ s=path(d,'#dfbba0','#b58d6d',.7)
+ s+=path(f'M{x+1.6} {y+.6}V{y-h*.36}Q{x+1.6} {y-h*.59} {x+w*.5} {y-h+1.6}Q{x+w-1.6} {y-h*.59} {x+w-1.6} {y-h*.36}V{y+.6}',stroke=cream,sw=.65)
+ s+=rect(x+w*.5-1,y-h*.43,2,2.3,'#ae8e70',cream,.45)
+ return s
+
+def descending_parcota():
+ # A curved retaining wall follows the ridge; upright crowns keep their masonry rhythm.
+ top='M0 307C20 304 35 296 48 285S75 269 91 266S119 257 136 243S164 222 180 213'
+ base='L180 249C164 258 151 266 136 279S107 299 91 302S62 310 48 321S20 340 0 343Z'
+ face=top+base
+ s=f'<g id="parcota-wall"><defs><clipPath id="parcota-wall-clip"><path d="{face}"/></clipPath></defs>'
+ s+=path(face,'#e2c2a7','#b58d6d',.9)
+ points=[(0,307),(27,298),(48,285),(69,273),(91,266),(113,258),(136,243),(159,226),(180,213)]
+ def level(x):
+  for (x0,y0),(x1,y1) in zip(points,points[1:]):
+   if x0<=x<=x1:return y0+(y1-y0)*(x-x0)/(x1-x0)
+  return points[-1][1]
+ # Fine cream-painted panels echo the reference without turning the ridge into a focal point.
+ panels=''
+ for x in range(0,177,19):
+  slope=math.degrees(math.atan((level(min(180,x+17))-level(x))/17))
+  panel=rect(0,0,16,27,'none',cream,.65)+rect(2,2,12,5,'none',cream,.6)+arch(2,11,12,14,'none',cream)
+  panels+=f'<g transform="translate({x+1} {level(x+1)+7}) skewY({slope})">{panel}</g>'
+ s+=f'<g clip-path="url(#parcota-wall-clip)" opacity=".88">{panels}</g>'
+ for x in range(1,173,17):s+=parcota_crown(x,level(x+6.5),13,11)
+ s+=path(top,stroke=cream,sw=1.1)
+ s+=path('M0 339C20 336 35 328 48 317S75 301 91 298S119 289 136 275S164 254 180 245',stroke='#c29f80',sw=1)
+ return s+'</g>'
+
 def hillfort():
  s=path('M0 320Q80 235 145 257Q240 160 330 191Q415 140 490 185Q610 179 700 274L770 350Z','#efe1cd','#d4b99a')
  for k in range(16):
   yy=224+k*7;s+=path(f'M{130-k*5} {yy+70}Q{280+k*8} {yy-70} {470+k*10} {yy+3}',stroke='#dcc6ad',sw=.7)
  s+=rect(175,166,315,51,'#ead6bd','#bb9775')
- for j in range(35):s+=rect(176+j*9,161,5,7,'#ead6bd','#bb9775',.6)
+ for j in range(22):s+=parcota_crown(176+j*14,166,11,9)
+ s+=path('M175 170H490',stroke=cream,sw=1)
  for xx in [176,262,389,470]:
   s+=rect(xx,139,24,79,'#ead6bd','#bb9775')+dome(xx-2,123,28,17)
   for yy in [155,178,199]:s+=arch(xx+7,yy,9,13,'#d1b495','#bb9775')
  for j in range(15):s+=arch(210+j*17,183,8,14,'#d1b495','#bb9775')
- s+=path('M180 213L130 249L87 260L40 292L5 298V314L44 306L92 276L136 264L185 228Z','#ead6bd','#bb9775')
+ s+=descending_parcota()
  return s
 
 def shop(x,y,w,label,warehouse=False):
