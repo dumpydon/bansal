@@ -9,6 +9,21 @@
   document.addEventListener('click',e=>{if(!e.target.closest('.header'))closeMenu();});
   $('#year').textContent=new Date().getFullYear();
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const founderProfiles = $('.founder-profiles'), portraitMotion = $('.founder-motion-toggle');
+  let portraitsPaused = false;
+  function updatePortraitMotion() {
+    if (!founderProfiles || !portraitMotion) return;
+    founderProfiles.dataset.motionEnabled = String(!reduced.matches);
+    founderProfiles.dataset.motionPaused = String(portraitsPaused);
+    portraitMotion.hidden = reduced.matches;
+    portraitMotion.setAttribute('aria-pressed', String(portraitsPaused));
+    portraitMotion.textContent = portraitsPaused ? 'Play portrait motion' : 'Pause portrait motion';
+  }
+  portraitMotion?.addEventListener('click', () => {
+    portraitsPaused = !portraitsPaused;
+    updatePortraitMotion();
+  });
+  updatePortraitMotion();
   if('IntersectionObserver' in window&&!reduced.matches){document.documentElement.classList.add('js-motion');const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}}),{threshold:.08});document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));}
   const vehicle = $('#vehicle'), replay = $('#motion'), scene = $('.hero-scene');
   const canAnimate = typeof vehicle.animate === 'function';
@@ -142,6 +157,7 @@
     }
   });
   reduced.addEventListener('change', () => {
+    updatePortraitMotion();
     if (reduced.matches) {
       cancelJourney();
       pausedForTab = false;

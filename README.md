@@ -38,6 +38,9 @@ No framework, backend, account, checkout or enquiry form is required.
   remain available. Vehicle and wheel timelines pause together when offscreen or when
   the browser tab is hidden.
 - Original warehouse/team, gateway and product-category artwork.
+- Enlarged founder profiles with original, gently animated portrait placeholders,
+  a motion pause control and a static reduced-motion alternative. The illustrations
+  are generic placeholders, not likenesses of the founders.
 - Seven brand families, five accessible category tabs, delivery process, worker tribute, founder story and the supplied Maps destination.
 - Responsive layouts, self-hosted fonts, reduced-motion handling, visible focus, no-JavaScript content and semantic navigation.
 
@@ -48,6 +51,10 @@ The business name, founder story, brand relationships and supplied address come 
 ## Source editing
 
 `dist/styles.css` and `dist/app.js` are the stylesheet and interaction source. `scripts/build.py` generates `dist/index.html`. `scripts/assets.py` generates vector companions and WOFF2 fonts using `scripts/illustration_library.py` and `design/fonts/`. Run assets then build when changing illustration source. The source font licences are included. Python generation requires fonttools, brotli and cairosvg; the served website needs none of those packages.
+
+`scripts/render-founders.mjs` renders the founder profiles during `npm run build`.
+Replace its generic portrait illustrations with the supplied, approved photographs
+when available, and remove the visible placeholder labels at that point.
 
 ## Verification
 

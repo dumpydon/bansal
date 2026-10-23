@@ -3,11 +3,13 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { renderCatalog } from './render-catalog.mjs';
+import { renderFounders } from './render-founders.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const origin = 'https://bansalsalesjaipur.dumpydon.workers.dev';
 await renderCatalog(root);
+await renderFounders(root);
 const indexPath = path.join(dist, 'index.html');
 let html = await readFile(indexPath, 'utf8');
 

@@ -8,6 +8,8 @@ for(const reduced of [false,true]){
  w.eval(fs.readFileSync(path.join(dist,'app.js'),'utf8'));
  const d=w.document,menu=d.querySelector('.menu');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'true');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape'}));assert.equal(menu.getAttribute('aria-expanded'),'false');
  const control=d.querySelector('#motion');if(!reduced){control.click();assert.match(control.textContent,/Continue/);assert.equal(d.querySelector('#vehicle').getAnimations()[0].playState,'paused');control.click();assert.match(control.textContent,/Pause/)}else{assert.equal(d.querySelector('#vehicle').getAnimations().length,0);control.click();assert.match(control.textContent,/next stop/)}
+ const profiles=d.querySelector('.founder-profiles'),portraitControl=d.querySelector('.founder-motion-toggle');assert.equal(profiles.querySelectorAll('figure').length,2);assert.equal(profiles.dataset.motionEnabled,String(!reduced));assert.equal(portraitControl.hidden,reduced);
+ if(!reduced){portraitControl.click();assert.equal(profiles.dataset.motionPaused,'true');assert.equal(portraitControl.getAttribute('aria-pressed'),'true');assert.match(portraitControl.textContent,/Play/);portraitControl.click();assert.equal(profiles.dataset.motionPaused,'false');}
  for(const a of d.querySelectorAll('a[href^="#"]'))assert(d.querySelector(a.getAttribute('href')),'Missing anchor '+a.href);
  for(const img of d.querySelectorAll('img')){assert(img.hasAttribute('alt'));assert(fs.existsSync(path.join(dist,img.getAttribute('src'))));}
  dom.window.close();
@@ -15,4 +17,4 @@ for(const reduced of [false,true]){
 const doc=new JSDOM(html).window.document;assert.equal(doc.querySelectorAll('h1').length,1);
 for(const el of doc.querySelectorAll('script[src],link[href]')){const u=el.getAttribute('src')||el.getAttribute('href');if(!u.startsWith('http'))assert(fs.existsSync(path.join(dist,u.split('?')[0])),u)}
 const ids=[...doc.querySelectorAll('[id]')].map(el=>el.id);const dup=ids.filter((v,i)=>ids.indexOf(v)!==i);console.log('Duplicate IDs:',[...new Set(dup)]);assert.equal(dup.length,0,'Duplicate IDs');
-console.log('PASS: menu, Escape, motion pause/resume, reduced motion, anchors, image alternatives and local assets.');
+console.log('PASS: menu, Escape, journey and portrait motion controls, reduced motion, anchors, image alternatives and local assets.');
