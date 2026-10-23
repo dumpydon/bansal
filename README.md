@@ -130,3 +130,38 @@ reduced-motion behaviour, product IDs and every referenced local image. The cata
 was also exercised in the in-app browser at desktop and phone widths; a mobile grid
 minimum-width issue was found and corrected. Automatic redeployment from GitHub remains
 separate from the direct, authenticated Wrangler deployment.
+
+## Jaipur light themes — local review
+
+The appearance follows Jaipur time (`Asia/Kolkata`), independently of the visitor's
+computer timezone: day 05:00–17:00, evening 17:00–18:00, night 18:00–05:00.
+The sun/moon in the hero and the navigation's Jaipur light button open Day, Evening,
+Night and Auto choices. Manual mode is stored as `bansal-theme-mode`; Auto resumes
+clock-based changes. The clock catches up after suspended tabs and page restoration.
+
+`dist/theme.js` runs synchronously before CSS/body paint. Keep the theme-color meta
+before that script. `dist/theme.css` owns the sky, architectural materials, lighting
+and celestial controls; `dist/theme-page.css` carries the palettes across the site.
+Original manufacturer marks and product photographs retain their colours.
+
+To regenerate the hero after an illustration edit, run `python3 scripts/render-scene.py`
+then `npm run build`. The renderer calls the original `illustration_library.py` and
+adds theme-aware material variables, bay lighting, shop luminaires and pavement pools.
+It updates both the saved hero SVG and its inline copy, preserving motion identifiers.
+Day colours are explicit SVG fallbacks. Normal builds serve the saved SVG and require
+no Python installation. Do not regenerate the whole page with the historic build.py.
+
+`npm run check` includes clock boundaries, saved modes, failed storage, pre-paint state,
+live clock updates, timezone fallback, keyboard controls and mobile navigation focus.
+Existing catalogue and 14-second journey tests remain part of the same command.
+
+Research, sources and implementation decisions: `design/jaipur-lighting-research.md`
+and `design/theme-checkpoint.md`. This theme work is for **localhost review only**;
+no push or deployment is part of its delivery.
+
+The hero includes artwork outside its original 1600-unit frame for wide views and
+zoomed-out windows: a completed kirana frontage, a third shop, the continued Parcota
+wall, hillside and paving. The central SVG viewBox and 1800px CSS width cap remain
+unchanged. SVG horizontal overflow is visible inside the page's clipped hero; the
+`scene-panorama-clip` restricts vertical painting to y=155…775 so the extra artwork
+cannot cover the headline or playback controls. Keep this clip if the scene changes.

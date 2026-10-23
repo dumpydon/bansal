@@ -20,10 +20,10 @@ html = html.replace(/(<meta property="og:image" content=")[^"]*(")/,
   `$1${origin}/assets/social.jpg$2`);
 // Refresh previously cached scripts/styles as one deterministic release.
 const assetVersions = {};
-for (const file of ['app.js','catalog.js','catalog-data.js','styles.css','catalog.css']) {
+for (const file of ['app.js','catalog.js','catalog-data.js','styles.css','catalog.css','theme.js','theme.css','theme-page.css']) {
   assetVersions[file] = createHash('sha256').update(await readFile(path.join(dist,file))).digest('hex').slice(0,12);
 }
-html = html.replace(/(src|href)="(app\.js|catalog\.js|catalog-data\.js|styles\.css|catalog\.css)(?:\?[^"]*)?"/g,
+html = html.replace(/(src|href)="(app\.js|catalog\.js|catalog-data\.js|styles\.css|catalog\.css|theme\.js|theme\.css|theme-page\.css)(?:\?[^"]*)?"/g,
   (_,attribute,file) => `${attribute}="${file}?v=${assetVersions[file]}"`);
 await writeFile(indexPath, html);
 await writeFile(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);

@@ -1,0 +1,59 @@
+/* Jaipur light: the original day illustration, rose dusk, and warm architectural night. */
+:root{--sky-top:#fbf3e5;--sky-mid:#fbf3e5;--sky-bottom:#fbf3e5;--theme-ink:#49362f;--theme-muted:#756052;--theme-surface:#fbf3e5;--theme-line:#c9a88b;--theme-accent:#945a47}
+html[data-theme=evening]{--sky-top:#dfcdd3;--sky-mid:#e5b5aa;--sky-bottom:#dfa77e;--theme-ink:#49362f;--theme-muted:#715747;--theme-surface:#f7e6d7;--theme-line:#bc9478;--theme-accent:#874637;--scene-plaster:#efcfa4;--scene-masonry:url(#lit-masonry);--stone-top:#b7796e;--stone-mid:#c78c73;--stone-bottom:#e4b079;--scene-terracotta:#855047;--scene-outline:#9b6b58;--scene-recess:#8b6056;--scene-hill:#b3a0a5;--scene-hill-edge:#a58e92;--scene-contour:#a9979e;--scene-fort:#d3ae88;--scene-fort-edge:#9e7b60;--scene-fort-recess:#917459;--scene-wall:#c9a98a;--scene-wall-edge:#a18367;--scene-wall-recess:#866e58;--scene-houses:#c99e83;--scene-street:#d1b098;--scene-street-edge:#ad8972;--scene-paving:#bb967c;--scene-foliage:#a2ae92;--scene-leaf-edge:#8c987f;--scene-trunk:#6f6954;--scene-shop-dark:#59443c;--scene-shelf:#a38962;--scene-threshold:#bb9676;--scene-foliage-light:#b6bfa0;--scene-foliage-shadow:#929f84;--scene-foliage-deep:#84957c;--scene-trunk-light:#9b8a69;--scene-garden-stone:#c4a88a;--scene-garden-soil:#73624f;--scene-planter-clay:#bf957d;--scene-planter-rim:#a17d67;--scene-premium-glass:#59675c;--scene-premium-brass:#ad9068;--scene-premium-interior:#ead4b1}
+html[data-theme=night]{color-scheme:dark;--sky-top:#171d2b;--sky-mid:#26263b;--sky-bottom:#4d3541;--theme-ink:#f6e6ce;--theme-muted:#c6b7a5;--theme-surface:#222735;--theme-line:#75614f;--theme-accent:#edbc7e;--scene-plaster:#e0b87e;--scene-masonry:url(#lit-masonry);--stone-top:#72483e;--stone-mid:#a86a44;--stone-bottom:#d69b57;--scene-terracotta:#5b3834;--scene-outline:#9e7450;--scene-recess:#403338;--scene-hill:#242a36;--scene-hill-edge:#49424a;--scene-contour:#393744;--scene-fort:#9d754b;--scene-fort-edge:#b18a57;--scene-fort-recess:#4d4239;--scene-wall:#8b6749;--scene-wall-edge:#aa8159;--scene-wall-recess:#433934;--scene-houses:#614642;--scene-street:#302d34;--scene-street-edge:#5b4943;--scene-paving:#4a3c3c;--scene-foliage:#48584f;--scene-leaf-edge:#606e5b;--scene-trunk:#7f7057;--scene-shop-dark:#3e3330;--scene-shelf:#b08b56;--scene-threshold:#9c7852;--scene-counter:#8c684a;--scene-counter-dark:#665044;--scene-foliage-light:#65745f;--scene-foliage-shadow:#405047;--scene-foliage-deep:#3b4d44;--scene-trunk-light:#9d835c;--scene-garden-stone:#9e7e58;--scene-garden-soil:#53473b;--scene-planter-clay:#9b7558;--scene-planter-rim:#80634f;--scene-premium-glass:#414942;--scene-premium-brass:#b79d72;--scene-premium-interior:#edd4a5}
+html[data-theme=evening] .header{background:#f4e4d4f5}
+html[data-theme=night] .header{background:#171d2bf5}
+.hero{background:var(--sky-top)}
+.hero-scene>svg{isolation:isolate;overflow:visible}
+.city-light,.city-stars{opacity:0;pointer-events:none;transition:opacity 1.1s ease}
+html[data-theme=evening] .city-light{opacity:.48}
+html[data-theme=night] .city-light{opacity:1}
+html[data-theme=night] .city-stars{opacity:.8}
+html[data-theme=evening] #hills,html[data-theme=night] #hills{opacity:1}
+html[data-theme=night] #albert{opacity:.78;--scene-plaster:#765343;--scene-outline:#b99160}
+html[data-theme=evening] #albert{opacity:.8}
+html[data-theme=evening] #hawa{--scene-painted-panel:#b27b64;--scene-glass-green:#5d7d68;--scene-glass-red:#ac6257}
+html[data-theme=night] #hawa{--scene-plaster:#edc487;--scene-outline:#94613f;--scene-painted-panel:#9f684b;--scene-glass-green:#6b9582;--scene-glass-red:#c47a6e}
+html[data-theme=evening] #hills{--scene-fort-roof:#a8a07e;--scene-fort-roof-shadow:#938b6e;--scene-fort-wall:#c4a481;--scene-fort-wall-shadow:#ad8d6b;--scene-fort-panel:#c9a47d}
+html[data-theme=night] #hills{--scene-plaster:#d6b77f;--scene-outline:#a98659;--scene-fort-roof:#7d7651;--scene-fort-roof-shadow:#5b5940;--scene-fort-wall:#876746;--scene-fort-wall-shadow:#5c4b3b;--scene-fort-panel:#8d6946}
+html[data-theme=night] #bansal-storefront{--scene-masonry:url(#store-masonry);--scene-plaster:#f4d69f;--scene-outline:#bc8d63;--scene-shop-dark:#594130}
+html[data-theme=night] .warehouse-wordmark{filter:drop-shadow(0 0 3px #ffca782e)}
+html[data-theme=night] .warehouse-wordmark text{fill:#fff1c9}
+html[data-theme=night] .bird{opacity:.13}
+html[data-theme=evening] .bird{opacity:.5}
+html[data-theme=night] #carrier,html[data-theme=night] #retailer{filter:brightness(.86) sepia(.12)}
+html[data-theme=night] #vehicle{filter:brightness(.9)}
+html[data-theme=night] #vehicle .rickshaw-wordmark{filter:brightness(1.2)}
+html[data-theme=night] .hero-scene-controls,html[data-theme=evening] .hero-scene-controls{background:var(--sky-top);border-color:var(--theme-line)}
+html[data-theme=night] .hero-note,html[data-theme=evening] .hero-note{color:var(--theme-muted)}
+html[data-theme=night] .motion-control,html[data-theme=evening] .motion-control{color:var(--theme-ink);background:var(--theme-surface);border-color:var(--theme-line)}
+/* The sun/moon is a genuine button, above the SVG but below the action links. */
+.sky-controls{position:absolute;left:0;top:0;width:100%;aspect-ratio:1600/620;pointer-events:none}
+.sky-switch{position:absolute;left:77.5%;top:calc(12% - var(--sky-lift,120px));width:8.625%;aspect-ratio:1;min-width:44px;min-height:44px;transform:translate(-50%,-50%);border:0;padding:0;background:none;color:var(--theme-accent);pointer-events:auto;border-radius:50%;z-index:3}
+.celestial-disc{display:block;position:absolute;inset:0;border-radius:50%;background:#efdcc0 url(assets/sun.svg) center/cover no-repeat;transform:scale(.81);box-shadow:0 0 24px #e2b56821,0 0 60px #e7bd7212;transition:transform .7s,background .7s,box-shadow .7s}
+.sky-switch:hover .celestial-disc{box-shadow:0 0 30px #e2b56838,0 0 70px #e7bd721f}
+.sky-switch:focus-visible{outline:2px solid var(--theme-accent);outline-offset:8px}
+.sky-caption{position:absolute;left:50%;top:106%;width:150px;transform:translateX(-50%);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--theme-muted);opacity:.9}
+.sky-caption:after{content:' ↗'}
+html[data-theme=evening] .celestial-disc{background:radial-gradient(circle at 40% 35%,#ffe1b2,#eab17f);box-shadow:0 0 35px #efb57640;transform:scale(.7128)}
+/* The actual lunar near side supplies the seas, crater rays and fine relief. */
+html[data-theme=night] .celestial-disc{background:#e9e2ce url(assets/moon.svg?v=bb81670968e8) center/cover no-repeat;transform:scale(.5022);box-shadow:0 0 2px #fff8e03c,0 0 22px #eee8d62e,0 0 65px #d9e4f70f}
+html[data-theme=night] .sky-switch:hover .celestial-disc{box-shadow:0 0 2px #fff8e06c,0 0 28px #eee8d647,0 0 70px #d9e4f71c}
+.appearance-toggle{background:transparent;border:1px solid var(--theme-line);color:var(--theme-ink);padding:8px 12px;min-height:40px;font-size:11px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.appearance-toggle:before{content:'☼';font-size:19px;line-height:1}
+html[data-theme=night] .appearance-toggle:before{content:'☾'}
+.theme-panel[hidden]{display:none}
+.theme-panel{position:fixed;top:100px;right:24px;width:min(340px,calc(100vw - 32px));z-index:30;padding:23px;background:var(--theme-surface);color:var(--theme-ink);border:1px solid var(--theme-line);box-shadow:0 16px 60px #13172230;text-align:left;border-radius:4px}
+.theme-panel h2{font-size:29px;letter-spacing:-.5px;margin-bottom:8px}
+.theme-panel p{font-size:11px;line-height:1.7;color:var(--theme-muted)}
+.theme-options{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:18px 0 13px}
+.theme-choice{padding:10px 6px;border:1px solid var(--theme-line);background:transparent;color:var(--theme-ink);font-size:11px;min-height:46px}
+.theme-choice[aria-pressed=true]{background:var(--theme-ink);border-color:var(--theme-ink);color:var(--theme-surface)}
+.theme-choice-auto{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding-inline:13px}
+.theme-choice small{font-size:10px;opacity:.85}
+.theme-panel [data-theme-status]{border-top:1px solid var(--theme-line);padding-top:13px;font-size:10px}
+html[data-theme=night] :focus-visible{outline-color:#edbc7e}
+@media(max-width:1050px){.navlinks{gap:18px}.appearance-toggle{padding-inline:10px}}
+@media(max-width:760px){.sky-caption{display:none}.sky-switch{top:calc(13% - var(--sky-lift,94px));left:78%}.theme-panel{top:86px;right:16px}.appearance-toggle{align-self:flex-start}.hero-scene-controls{gap:10px}}
+@media(prefers-reduced-motion:reduce){.city-light,.city-stars,.celestial-disc{transition:none}}

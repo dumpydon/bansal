@@ -70,6 +70,20 @@ assert.equal(frameAt(carrier, 11).opacity, 1, 'Carrier returns for the arrival s
 assert.equal(frameAt(carrier, 14).transform, 'translate(1305px, 728px)', 'Complete the final approach to the shop');
 assert(t.activeWheels().every(wheel => wheel.frames.at(-1).transform === 'rotate(1408deg)'), 'Wheels turn for the full route');
 assert(t.activeParts().filter(a => a.target.matches('.leg-front,.leg-back')).every(leg => leg.frames.some(frame => frame.transform !== 'rotate(0deg)')), 'Walking legs move during preparation');
+const legs = t.activeParts().filter(a => a.target.matches('.leg-front,.leg-back'));
+const angleAt = (track, seconds) => Number(frameAt(track, seconds).transform.match(/rotate\(([^)]+)deg\)/)[1]);
+for (const leg of legs) {
+  assert(angleAt(leg, 11.25) * angleAt(leg, 11.75) < 0,
+    'Arrival must alternate steps while the carrier approaches the shopkeeper');
+  assert.equal(angleAt(leg, 8), 0, 'Walking stops while riding in the rickshaw');
+  assert.equal(angleAt(leg, 14), 0, 'The carrier settles into the handover pose');
+}
+assert(angleAt(legs[0], 11.25) * angleAt(legs[1], 11.25) < 0,
+  'The two legs counter-swing rather than sliding together');
+assert.notEqual(frameAt(carrier, 11.25).transform.split(', ')[1], frameAt(carrier, 11.75).transform.split(', ')[1],
+  'The arrival walk includes the same gentle body bounce as the departure walk');
+assert.equal(frameAt(first, 13).transform, frameAt(first, 11).transform,
+  'The rickshaw stays parked throughout the final walk');
 t.enter(0.7); t.enter(0.3); assert.equal(t.journeys().length, 1, 'No repeated restart while visible');
 first.finish(); assert.match(t.button.textContent, /Replay/);
 t.enter(0.8); assert.equal(t.journeys().length, 1, 'A completed visit plays only once');

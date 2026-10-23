@@ -1,0 +1,386 @@
+/* The original daytime stylesheet remains the source of truth for day mode.
+   These two palettes carry the city's warm light through the rest of the page. */
+html[data-theme="evening"] {
+  color-scheme: light;
+  --page-bg: #f4e4d4;
+  --page-surface: #edd5c4;
+  --page-raised: #faebdb;
+  --page-text: #49362f;
+  --page-muted: #725747;
+  --page-accent: #8e4937;
+  --page-em: #a35440;
+  --page-border: #c49d83;
+  --page-control-border: #92654f;
+  --page-button: #8a4037;
+  --page-button-hover: #6f302b;
+  --page-button-text: #fff6e8;
+  --page-focus: #4a6454;
+}
+
+html[data-theme="night"] {
+  color-scheme: dark;
+  --page-bg: #171d2b;
+  --page-surface: #222735;
+  --page-raised: #2b3040;
+  --page-text: #f6e6ce;
+  --page-muted: #c6b7a5;
+  --page-accent: #edbc7e;
+  --page-em: #e9b395;
+  --page-border: #6a5549;
+  --page-control-border: #a2866d;
+  --page-button: #e6b578;
+  --page-button-hover: #f4ce99;
+  --page-button-text: #28212a;
+  --page-focus: #ffe2ac;
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) {
+  background: var(--page-bg);
+  scrollbar-color: var(--page-control-border) var(--page-bg);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) body {
+  background: var(--page-bg);
+  color: var(--page-text);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) ::selection {
+  background: var(--page-accent);
+  color: var(--page-bg);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) p {
+  color: var(--page-muted);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) em {
+  color: var(--page-em);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(.eyebrow, .intro-copy .signature) {
+  color: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(button, a, input, select, summary):focus-visible {
+  outline-color: var(--page-focus);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .skip {
+  color: var(--page-button-text);
+  background: var(--page-button);
+}
+
+/* Header geometry, the hero sky and its celestial control belong to theme.css. */
+html:is([data-theme="evening"], [data-theme="night"]) .header {
+  color: var(--page-text);
+  border-color: var(--page-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(.nav-visit, .menu) {
+  color: var(--page-text);
+  border-color: var(--page-control-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(.navlinks a:hover, .footer-links a:hover) {
+  color: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .button {
+  background: var(--page-button);
+  border-color: var(--page-button);
+  color: var(--page-button-text);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .button:hover {
+  background: var(--page-button-hover);
+  border-color: var(--page-button-hover);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .text-link {
+  border-color: var(--page-control-border);
+}
+
+html[data-theme="evening"] .ticker {
+  background: #8b4b3f;
+  color: #fff0d9;
+}
+
+html[data-theme="night"] .ticker {
+  background: #382d31;
+  color: #f4d7b1;
+  border-block: 1px solid #6a5549;
+}
+
+html[data-theme="night"] .ticker i { color: #d9a464; }
+
+/* Catalogue: packaging and white manufacturer logo tiles keep their own colours. */
+html:is([data-theme="evening"], [data-theme="night"]) .portfolio {
+  background: var(--page-surface);
+  border-color: var(--page-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .catalog-brands, .catalog-categories, .catalog-category-row, .catalog-footnote
+) { border-color: var(--page-border); }
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-brand {
+  color: var(--page-text);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .catalog-brand:hover, .catalog-brand:focus-visible, .catalog-brand.active
+) { background: var(--page-raised); }
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-brand.active {
+  border-color: var(--page-accent);
+}
+
+html[data-theme="night"] .catalog-brand-logo {
+  border-color: #b69b7e;
+  box-shadow: 0 3px 16px #0c111d22;
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .catalog-brand-count, .catalog-category-row button, .catalog-interval, .catalog-footnote
+) { color: var(--page-muted); }
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .catalog-intro .text-link, .catalog-total, .catalog-stage-top,
+  .catalog-product-copy > span, .catalog-official, .catalog-category-row a,
+  .catalog-category-row > span, .catalog-category-row button[aria-pressed="true"]
+) { color: var(--page-accent); }
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-category-row:has(button[aria-pressed="true"]) {
+  box-shadow: inset 3px 0 var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-category-row a:hover {
+  background: var(--page-raised);
+}
+
+html[data-theme="evening"] .catalog-stage::before {
+  background: radial-gradient(ellipse at 50% 36%, #fff2dc 0%, #f6dfca 58%, #eed5c1 100%);
+  border-color: #c49d83;
+}
+
+html[data-theme="night"] .catalog-stage::before {
+  background: radial-gradient(ellipse at 50% 38%, #4c403b 0%, #34313a 37%, #252a39 74%);
+  border-color: #7f6451;
+  box-shadow: inset 0 1px 0 #edbc7e12;
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .catalog-official, .catalog-intro .text-link, .catalog-nav, .catalog-nav button + button
+) { border-color: var(--page-control-border); }
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-nav button {
+  color: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-nav button:hover {
+  background: var(--page-raised);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-progress {
+  background: var(--page-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-progress span {
+  background: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-image-fallback {
+  background: var(--page-raised);
+  color: var(--page-text);
+  border-color: var(--page-border);
+}
+
+/* The full catalogue uses the same palette, including search and native selects. */
+html:is([data-theme="evening"], [data-theme="night"]) #catalog-dialog {
+  color: var(--page-text);
+  background: var(--page-bg);
+  border-color: var(--page-control-border);
+}
+
+html[data-theme="night"] #catalog-dialog::backdrop {
+  background: #080d19bf;
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-dialog-header {
+  background: var(--page-bg);
+  border-color: var(--page-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .catalog-dialog-header > button, .catalog-footer .text-link
+) {
+  color: var(--page-accent);
+  border-color: var(--page-control-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-dialog-tools label {
+  color: var(--page-muted);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .catalog-dialog-tools input, .catalog-dialog-tools select
+) {
+  color: var(--page-text);
+  background: var(--page-surface);
+  border-color: var(--page-control-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-dialog-tools input::placeholder {
+  color: var(--page-muted);
+  opacity: 1;
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-result-bar a {
+  color: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-card {
+  background: var(--page-surface);
+  border-color: var(--page-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-card-brand {
+  color: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-card-detail {
+  color: var(--page-muted);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-card > a:last-child {
+  color: var(--page-accent);
+  border-color: var(--page-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .catalog-empty {
+  color: var(--page-muted);
+  border-color: var(--page-control-border);
+}
+
+/* Golden linework continues through the delivery steps and the family seal. */
+html:is([data-theme="evening"], [data-theme="night"]) :is(
+  .journey-grid::before, .journey-bottom, .founder-line, .address, .footer-bottom
+) { border-color: var(--page-border); }
+
+html:is([data-theme="evening"], [data-theme="night"]) .step-num {
+  background: var(--page-bg);
+  color: var(--page-accent);
+  border-color: var(--page-control-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .story-mark {
+  border-color: var(--page-control-border);
+  color: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .story-mark::before {
+  border-color: var(--page-border);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .story-mark .hindi {
+  color: var(--page-accent);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .story-mark > span {
+  color: var(--page-text);
+}
+
+html[data-theme="night"] .story-mark {
+  background: radial-gradient(ellipse at center, #edbc7e08 0%, transparent 68%);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .founder-line small {
+  color: var(--page-muted);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .founder-motion-toggle {
+  color: var(--page-accent);
+  border-color: var(--page-control-border);
+}
+
+html[data-theme="evening"] .founder-portrait { border-color: #b68b70; }
+
+html[data-theme="night"] .founder-portrait {
+  border-color: #7a6250;
+  background: #39343b;
+}
+
+/* Recolour the architecture around the portraits, preserving the people and initials. */
+html[data-theme="night"] .portrait-artwork > rect { fill: #39343b; }
+html[data-theme="night"] .portrait-artwork > path[fill="#e0b49c"] { fill: #805c4d; }
+html[data-theme="night"] .portrait-artwork > path[stroke] { stroke: #bd9770; }
+html[data-theme="night"] .portrait-artwork .portrait-sun { fill: #bf9761; opacity: .4; }
+html[data-theme="night"] .portrait-artwork .portrait-architecture { stroke: #e5bb85; opacity: .45; }
+
+html[data-theme="night"] .portrait-placeholder-tag {
+  background: #222735f2;
+  color: var(--page-text);
+  border-color: var(--page-control-border);
+}
+
+/* Secondary illustrations stay warm and legible, with a restrained dusk tint. */
+html[data-theme="evening"] .people { background: #4b554b; }
+html[data-theme="night"] .people { background: #252f31; color: var(--page-text); }
+
+html:is([data-theme="evening"], [data-theme="night"]) .people-copy p { color: #ded6c6; }
+html:is([data-theme="evening"], [data-theme="night"]) .people-copy .eyebrow { color: #edc295; }
+html:is([data-theme="evening"], [data-theme="night"]) .people-copy .tribute {
+  color: #f0c694;
+  border-color: #7e7c6559;
+}
+
+html[data-theme="night"] .people-art { background: #34343b; }
+html[data-theme="night"] .people-art img { filter: brightness(.8) saturate(.8); }
+
+html[data-theme="evening"] .visit { background: #e4beaa; }
+html[data-theme="evening"] .visit-copy p { color: #624636; }
+html[data-theme="evening"] .visit-copy .eyebrow { color: #76392c; }
+html[data-theme="night"] .visit { background: #2d2b35; }
+html[data-theme="night"] .visit-art img {
+  mix-blend-mode: normal;
+  filter: brightness(.81) saturate(.83);
+  border-top: 1px solid #7c6050;
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .footer {
+  color: var(--page-text);
+  background: var(--page-bg);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .footer-bottom {
+  color: var(--page-muted);
+}
+
+html:is([data-theme="evening"], [data-theme="night"]) .footer-heart {
+  color: var(--page-accent);
+}
+
+@media (max-width: 760px) {
+  html:is([data-theme="evening"], [data-theme="night"]) .navlinks {
+    background: var(--page-bg);
+    border-color: var(--page-border);
+  }
+
+  html:is([data-theme="evening"], [data-theme="night"]) .catalog-category-row {
+    border-color: var(--page-control-border);
+  }
+
+  html:is([data-theme="evening"], [data-theme="night"]) .catalog-category-row button[aria-pressed="true"] {
+    background: var(--page-button);
+    color: var(--page-button-text);
+  }
+
+  html:is([data-theme="evening"], [data-theme="night"]) .catalog-category-row:has(button[aria-pressed="true"]) {
+    box-shadow: none;
+    border-color: var(--page-button);
+  }
+
+  html:is([data-theme="evening"], [data-theme="night"]) .catalog-category-row a {
+    border-color: var(--page-control-border);
+  }
+}

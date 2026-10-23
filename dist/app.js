@@ -6,7 +6,7 @@
   menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';nav.classList.toggle('open',open);menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'Close −':'Menu +';});
   nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){closeMenu();menu.focus();}});
-  document.addEventListener('click',e=>{if(!e.target.closest('.header'))closeMenu();});
+  document.addEventListener('click',e=>{if(!e.target.closest('.header, [data-theme-panel]'))closeMenu();});
   $('#year').textContent=new Date().getFullYear();
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const founderProfiles = $('.founder-profiles'), portraitMotion = $('.founder-motion-toggle');
@@ -43,13 +43,19 @@
     const workerX = seconds < 5
       ? 390 + Math.min(seconds / 4, 1) * 90
       : x + 130 + 80 * Math.max(0, Math.min(1, (seconds - 11) / 3));
-    const workerY = 728 + (seconds < 4 ? Math.sin(seconds * 6) * 1.5 : 0);
+    const arrivalWalk = seconds >= 11 && seconds < 14;
+    const walking = seconds < 4 || arrivalWalk;
+    const walkTime = arrivalWalk ? seconds - 11 : seconds;
+    // Reuse the departure gait after unloading, then settle for the handover.
+    const settle = arrivalWalk ? Math.min(1, (14 - seconds) / 0.3) : 1;
+    const stride = walking ? Math.sin(walkTime * 6) * settle : 0;
+    const workerY = 728 + stride * 1.5;
     return {
       vehicle: `translate(${x}px, 573px)`,
       carrier: `translate(${workerX}px, ${workerY}px)`,
       opacity: seconds < 4.6 || seconds >= 11 ? 1 : 0,
       wheel: `rotate(${eased * 1408}deg)`,
-      legs: [0, 1].map(i => `rotate(${seconds < 4 ? Math.sin(seconds * 6 + i * Math.PI) * 7 : 0}deg)`)
+      legs: [stride * 7, -stride * 7].map(angle => `rotate(${angle}deg)`)
     };
   }
   const poses = Array.from({ length: 281 }, (_, i) => ({ offset: i / 280, ...journeyPose(i / 20) }));

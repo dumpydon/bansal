@@ -13,3 +13,15 @@
 @media(max-width:760px){.hero-scene-controls{justify-content:flex-end;padding:10px 20px}.hero-scene-controls .motion-control{min-height:42px;font-size:11px}}
 
 /* Story seal: 1.1x circle and 1.5x contents, fitting proportionally in compact circles. Portrait frames are 0.75x. */
+
+/* Raise the hero copy while keeping the city at its original street level. */
+.hero{--hero-copy-lift:25px;--sky-lift:120px}
+.hero-intro{position:relative;z-index:2;transform:translateY(calc(-1 * var(--hero-copy-lift))) scale(.9);transform-origin:center top}
+.hero-actions{transform:scale(.65);transform-origin:center}
+.hero-actions a{position:relative}
+/* Preserve a 44px touch area after both hero and link scaling. */
+.hero-actions a:after{content:'';position:absolute;left:0;right:0;top:50%;height:76px;transform:translateY(-50%)}
+@media(max-width:760px){.hero{--hero-copy-lift:24px;--sky-lift:94px}}
+
+/* Enlarge only hero link lettering; transforms preserve each button's box. */
+.hero-actions .hero-action-label{display:inline-block;margin-left:0;transform:scale(1.35);transform-origin:center}
