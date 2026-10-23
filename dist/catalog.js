@@ -12,6 +12,7 @@
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let category = 'all', pool = photoPool('all'), index = 0;
   let userPaused = motion.matches, inView = !('IntersectionObserver' in window), hovering = false, imageFocused = false, timer = null;
+  let selectionUntil = 0, allowHoverPlayback = false, allowFocusPlayback = false;
   let opener = null, shown = 24, filtered = [];
   const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -24,17 +25,26 @@
   function current() { return pool[index]; }
   function wrapIndex(position) { return ((position % pool.length) + pool.length) % pool.length; }
   function announce() { announcement.textContent = `${brands.get(current().brand).name}: ${current().name}`; }
+  function holdSelection() {
+    if (!userPaused) selectionUntil = performance.now() + 7000;
+    // The selected product gets seven seconds, even while its button stays hovered or focused.
+    allowHoverPlayback = true;
+    allowFocusPlayback = true;
+  }
   function schedule() {
     clearTimeout(timer);timer = null;
-    const running = !userPaused && !hovering && !imageFocused && inView && !document.hidden && !dialog.open && pool.length > 1;
+    const running = !userPaused && (!hovering || allowHoverPlayback) && (!imageFocused || allowFocusPlayback) && inView && !document.hidden && !dialog.open && pool.length > 1;
     progress.classList.remove('running');
     playButton.innerHTML = userPaused ? '▷ <span>Play</span>' : 'Ⅱ <span>Pause</span>';
     playButton.setAttribute('aria-label', userPaused ? 'Play product slideshow' : 'Pause product slideshow');
     playButton.setAttribute('aria-pressed', String(!userPaused));
     if (running) {
+      const now = performance.now();
+      const delay = selectionUntil > now ? selectionUntil - now : 2000;
+      progress.style.setProperty('--catalog-interval', `${delay}ms`);
       void progress.offsetWidth;
       if (!motion.matches) progress.classList.add('running');
-      timer = setTimeout(() => { index = (index + 1) % pool.length; render(); schedule(); }, 2000);
+      timer = setTimeout(() => { selectionUntil = 0; index = (index + 1) % pool.length; render(); schedule(); }, delay);
     }
   }
   function render() {
@@ -68,21 +78,22 @@
       const caption=document.createElement('small');caption.textContent='View the official product';fallback.append(caption);stage.append(fallback);
     }
   });
-  function move(delta, manual=true) { index=wrapIndex(index+delta);if(manual)userPaused=true;render();if(manual)announce();schedule(); }
+  function move(delta, manual=true) { index=wrapIndex(index+delta);if(manual)holdSelection();render();if(manual)announce();schedule(); }
   $('#catalog-prev').addEventListener('click',()=>move(-1));$('#catalog-next').addEventListener('click',()=>move(1));
   neighbours.forEach(button => button.addEventListener('click', () => move(Number(button.dataset.offset))));
-  playButton.addEventListener('click',()=>{userPaused=!userPaused;schedule();});
-  imageArea.addEventListener('pointerenter',()=>{hovering=true;schedule();});
-  imageArea.addEventListener('pointerleave',()=>{hovering=false;schedule();});
-  imageArea.addEventListener('focusin',()=>{imageFocused=true;schedule();});
-  imageArea.addEventListener('focusout',event=>{if(imageArea.contains(event.relatedTarget))return;imageFocused=false;schedule();});
+  stage.addEventListener('click',()=>{holdSelection();schedule();});
+  playButton.addEventListener('click',()=>{userPaused=!userPaused;selectionUntil=0;allowHoverPlayback=allowFocusPlayback=!userPaused;schedule();});
+  imageArea.addEventListener('pointerenter',()=>{hovering=true;allowHoverPlayback=false;schedule();});
+  imageArea.addEventListener('pointerleave',()=>{hovering=false;allowHoverPlayback=false;schedule();});
+  imageArea.addEventListener('focusin',()=>{imageFocused=true;allowFocusPlayback=false;schedule();});
+  imageArea.addEventListener('focusout',event=>{if(imageArea.contains(event.relatedTarget))return;imageFocused=false;allowFocusPlayback=false;schedule();});
   document.addEventListener('visibilitychange',schedule);
-  motion.addEventListener('change',()=>{if(motion.matches)userPaused=true;schedule();});
+  motion.addEventListener('change',()=>{if(motion.matches){userPaused=true;selectionUntil=0;}schedule();});
   if ('IntersectionObserver' in window) new IntersectionObserver(entries=>{inView=entries.some(e=>e.isIntersecting);schedule();},{threshold:.1}).observe(section);
 
   function setCategory(next) {
     const nextPool=photoPool(next);if(!nextPool.length)return;
-    category=next;pool=nextPool;index=0;
+    category=next;pool=nextPool;index=0;selectionUntil=0;
     document.querySelectorAll('[data-category]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
     render();announce();schedule();
   }

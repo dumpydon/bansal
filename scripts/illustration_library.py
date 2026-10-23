@@ -65,8 +65,10 @@ def parcota_crown(x,y,w=13,h=11):
 
 def descending_parcota():
  # A curved retaining wall follows the ridge; upright crowns keep their masonry rhythm.
+ vertical_scale=.85
+ height=36*vertical_scale
  top='M0 307C20 304 35 296 48 285S75 269 91 266S119 257 136 243S164 222 180 213'
- base='L180 249C164 258 151 266 136 279S107 299 91 302S62 310 48 321S20 340 0 343Z'
+ base=f'L180 {213+height}C164 {222+height} 151 {230+height} 136 {243+height}S107 {263+height} 91 {266+height}S62 {274+height} 48 {285+height}S20 {304+height} 0 {307+height}Z'
  face=top+base
  s=f'<g id="parcota-wall"><defs><clipPath id="parcota-wall-clip"><path d="{face}"/></clipPath></defs>'
  s+=path(face,'#e2c2a7','#b58d6d',.9)
@@ -80,11 +82,12 @@ def descending_parcota():
  for x in range(0,177,19):
   slope=math.degrees(math.atan((level(min(180,x+17))-level(x))/17))
   panel=rect(0,0,16,27,'none',cream,.65)+rect(2,2,12,5,'none',cream,.6)+arch(2,11,12,14,'none',cream)
-  panels+=f'<g transform="translate({x+1} {level(x+1)+7}) skewY({slope})">{panel}</g>'
+  panels+=f'<g transform="translate({x+1} {level(x+1)+7*vertical_scale}) skewY({slope}) scale(1 {vertical_scale})">{panel}</g>'
  s+=f'<g clip-path="url(#parcota-wall-clip)" opacity=".88">{panels}</g>'
- for x in range(1,173,17):s+=parcota_crown(x,level(x+6.5),13,11)
+ for x in range(1,173,17):s+=f'<g transform="translate({x} {level(x+6.5)}) scale(1 {vertical_scale})">{parcota_crown(0,0,13,11)}</g>'
  s+=path(top,stroke=cream,sw=1.1)
- s+=path('M0 339C20 336 35 328 48 317S75 301 91 298S119 289 136 275S164 254 180 245',stroke='#c29f80',sw=1)
+ band=32*vertical_scale
+ s+=path(f'M0 {307+band}C20 {304+band} 35 {296+band} 48 {285+band}S75 {269+band} 91 {266+band}S119 {257+band} 136 {243+band}S164 {222+band} 180 {213+band}',stroke='#c29f80',sw=1)
  return s+'</g>'
 
 def hillfort():
