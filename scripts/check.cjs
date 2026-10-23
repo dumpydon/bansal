@@ -2,8 +2,9 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const {JSDOM}=require('jsdom');
 const dist=path.resolve(__dirname,'../dist'),html=fs.readFileSync(path.join(dist,'index.html'),'utf8');
 for(const reduced of [false,true]){
- const dom=new JSDOM(html,{runScripts:'outside-only',url:'http://localhost/'}),w=dom.window;w.matchMedia=q=>({matches:q.includes('reduced-motion')?reduced:false,addEventListener(){}});
+ const dom=new JSDOM(html,{runScripts:'outside-only',url:'http://localhost/',pretendToBeVisual:true}),w=dom.window;w.matchMedia=q=>({matches:q.includes('reduced-motion')?reduced:false,addEventListener(){}});
  const anims=new WeakMap();w.Element.prototype.animate=function(){const a={playState:'running',pause(){this.playState='paused'},play(){this.playState='running'},cancel(){this.playState='idle'}};anims.set(this,[...(anims.get(this)||[]),a]);return a};w.Element.prototype.getAnimations=function(){return anims.get(this)||[]};
+ w.document.querySelector('.hero-scene').getBoundingClientRect=()=>({top:100,bottom:500,left:0,right:900,width:900,height:400});
  w.eval(fs.readFileSync(path.join(dist,'app.js'),'utf8'));
  const d=w.document,menu=d.querySelector('.menu');menu.click();assert.equal(menu.getAttribute('aria-expanded'),'true');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape'}));assert.equal(menu.getAttribute('aria-expanded'),'false');
  const control=d.querySelector('#motion');if(!reduced){control.click();assert.match(control.textContent,/Continue/);assert.equal(d.querySelector('#vehicle').getAnimations()[0].playState,'paused');control.click();assert.match(control.textContent,/Pause/)}else{assert.equal(d.querySelector('#vehicle').getAnimations().length,0);control.click();assert.match(control.textContent,/next stop/)}
