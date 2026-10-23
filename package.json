@@ -5,7 +5,7 @@
   "description": "Bansal Sales Corporation's Jaipur-inspired landing page.",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check dist/app.js && npm run build && node scripts/check.cjs",
+    "check": "node --check dist/app.js && node --check dist/catalog.js && npm run build && node scripts/check.cjs && node scripts/check-catalog.cjs",
     "dev": "wrangler dev",
     "deploy": "npm run check && wrangler deploy",
     "deploy:dry-run": "npm run check && wrangler deploy --dry-run"

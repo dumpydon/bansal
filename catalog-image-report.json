@@ -1,0 +1,21 @@
+{
+  "total": 222,
+  "withImages": 219,
+  "missing": [
+    {
+      "id": "dmb-kaju-dhoda-burfi",
+      "name": "Kaju Dhoda Burfi",
+      "error": "No source photograph"
+    },
+    {
+      "id": "priyagold-jeera-gold",
+      "name": "Jeera Gold",
+      "error": "No source photograph"
+    },
+    {
+      "id": "priyagold-lemon-puff",
+      "name": "Lemon Puff",
+      "error": "No source photograph"
+    }
+  ]
+}

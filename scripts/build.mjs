@@ -1,10 +1,12 @@
 import { readFile, writeFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { renderCatalog } from './render-catalog.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const origin = 'https://bansalsalesjaipur.dumpydon.workers.dev';
+await renderCatalog(root);
 const indexPath = path.join(dist, 'index.html');
 let html = await readFile(indexPath, 'utf8');
 

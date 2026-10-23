@@ -51,7 +51,7 @@ motion pause/resume, reduced-motion fallback, anchors, duplicate IDs and local i
 assets. The dependencies are locked in `package-lock.json`. Assets and original
 illustrations were rendered and inspected separately.
 
-Live browser layout, real-device testing and measured performance remain unverified because browser automation is disabled in Work settings. No Lighthouse score or real-user Core Web Vitals result is claimed.
+The catalogue has been checked in the in-app browser at desktop and phone widths. Real-device testing and measured performance remain unverified. No Lighthouse score or real-user Core Web Vitals result is claimed.
 
 ## Publishing
 
@@ -60,3 +60,39 @@ Cloudflare deployment uses `wrangler.jsonc` and is separate from that preview.
 The repository contains website source and artwork; the personal research vault and
 supplied reference photographs are outside this repository. Credentials belong in
 the local Wrangler/GitHub login or the host's protected configuration, never in Git.
+
+## Product catalogue
+
+The catalogue contains 222 product/range entries across the seven supplied companies,
+with 219 locally optimized product photographs. `catalog-sources.json` records each
+product's source page, image source and whether the photograph came from the manufacturer
+or a retailer. Priyagold's primary website timed out and its official shop was password
+protected during collection, so identifiable retailer pack references supplement that range.
+Nabati's public international catalogue is labelled separately from confirmed India stock.
+This is a manufacturer-range catalogue, not an assertion of real-time Bansal inventory.
+
+`dist/catalog-data.js` is the deployed, compact data snapshot. `dist/catalog.js` controls
+company/catalogue browsing, search, pagination and the two-second product carousel.
+The carousel visits photographed products company by company, loops to the beginning,
+pauses when its section is offscreen or the catalogue dialog is open, and respects
+reduced-motion preferences. Keyboard-friendly previous/next and pause controls are included.
+Brand buttons open their lists; the category arrow links open the official manufacturer
+catalogues directly (the biscuit arrow opens Priyagold).
+
+`design/catalog-section.html` and `scripts/render-catalog.mjs` generate the catalogue
+section during `npm run build`. `scripts/sync-catalog.py` regenerates optimized WebP images
+and data from the reviewed source manifest; its optional Python dependencies are Pillow
+and requests. Empty transparent padding is trimmed while keeping all visible pack artwork.
+Do not replace a product photograph with a differently named pack to fill an image gap.
+
+Three source-listed ranges have no usable source photograph: DMB Kaju Dhoda Burfi,
+Priyagold Jeera Gold and Priyagold Lemon Puff. They remain searchable with official links
+and are omitted from the photographic slideshow. `catalog-image-report.json` records
+these gaps. Generic international image labels were refined by inspecting the actual packs.
+
+`npm run check` now additionally checks the complete carousel cycle, two-second timing,
+company/category filters, modal search and pagination, focus restoration, pause/resume,
+reduced-motion behaviour, product IDs and every referenced local image. The catalogue
+was also exercised in the in-app browser at desktop and phone widths; a mobile grid
+minimum-width issue was found and corrected. Automatic redeployment from GitHub remains
+separate from the direct, authenticated Wrangler deployment.

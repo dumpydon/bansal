@@ -1,0 +1,51 @@
+<section class="portfolio catalog-section" id="range" aria-labelledby="range-heading">
+  <div class="wrap">
+    <div class="portfolio-head fade-in">
+      <div><span class="eyebrow">A range for everyday life</span><h2 id="range-heading">Familiar names.<br><em>A world of choice.</em></h2></div>
+      <div class="catalog-intro"><p>Discover the treats, everyday essentials and household favourites behind our brand portfolio.</p><button class="catalog-open text-link" type="button">Explore the full catalogue <span aria-hidden="true">↗</span></button></div>
+    </div>
+    <div class="catalog-brands" aria-label="Browse by company">{{BRAND_BUTTONS}}</div>
+    <div class="catalog-layout">
+      <div class="catalog-sidebar">
+        <span class="eyebrow">Find your favourites</span>
+        <div class="catalog-categories" aria-label="Filter product showcase">{{CATEGORY_BUTTONS}}</div>
+        <div class="catalog-sidebar-bottom"><span class="catalog-total">{{TOTAL}} products &amp; ranges</span><button class="button catalog-open" type="button">Browse the catalogue <span aria-hidden="true">↗</span></button><p>Looking for something specific?<br>Search by product or company.</p></div>
+      </div>
+      <div class="catalog-showcase" role="region" aria-label="Product showcase" aria-roledescription="carousel">
+        <div class="catalog-stage">
+          <div class="catalog-stage-top"><span id="showcase-brand">{{FIRST_BRAND}}</span><span id="showcase-count">01 / {{FIRST_BRAND_TOTAL}}</span></div>
+          <div class="catalog-image-area" id="catalog-image-area">
+            <button class="catalog-peek catalog-peek-prev" type="button" aria-label="Previous product" tabindex="-1"><img src="{{PREV_IMAGE}}" alt="" width="160" height="200" aria-hidden="true"></button>
+            <a class="catalog-featured" id="catalog-featured" href="{{FIRST_URL}}" target="_blank" rel="noopener noreferrer"><img id="catalog-featured-image" src="{{FIRST_IMAGE}}" alt="{{FIRST_NAME}}" width="650" height="650" decoding="async"></a>
+            <button class="catalog-peek catalog-peek-next" type="button" aria-label="Next product" tabindex="-1"><img src="{{NEXT_IMAGE}}" alt="" width="160" height="200" aria-hidden="true"></button>
+          </div>
+          <div class="catalog-product-copy"><span id="showcase-family">{{FIRST_CATEGORY}}</span><h3 id="showcase-name">{{FIRST_NAME}}</h3><a id="showcase-link" class="catalog-official" href="{{FIRST_CATALOGUE}}" target="_blank" rel="noopener noreferrer">View official catalogue <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="catalog-controls">
+          <div class="catalog-nav"><button id="catalog-prev" type="button" aria-label="Previous product">←</button><button id="catalog-play" type="button" aria-label="Pause product slideshow">Ⅱ <span>Pause</span></button><button id="catalog-next" type="button" aria-label="Next product">→</button></div>
+          <div class="catalog-progress" aria-hidden="true"><span id="catalog-progress-fill"></span></div><span class="catalog-interval">A new favourite, every 2 seconds</span>
+        </div>
+        <p class="catalog-showing" id="catalog-showing">Exploring all seven companies</p>
+      </div>
+    </div>
+    <div class="catalog-footnote"><span>Manufacturer catalogues, collected {{UPDATED}}. Packaging and local assortment may vary.</span><span>Ask our team about Jaipur availability.</span></div>
+    <noscript><p class="noscript-note">{{NOSCRIPT_LINKS}}</p></noscript>
+  </div>
+  <dialog id="catalog-dialog" aria-labelledby="catalog-dialog-title">
+    <div class="catalog-dialog-shell">
+      <header class="catalog-dialog-header"><div><span class="eyebrow">Discover the range</span><h2 id="catalog-dialog-title">The catalogue.</h2></div><button id="catalog-close" type="button" aria-label="Close catalogue">Close <span aria-hidden="true">×</span></button></header>
+      <div class="catalog-dialog-body">
+      <div class="catalog-dialog-tools">
+        <label class="catalog-search">Search products<input type="search" id="catalog-search" placeholder="Try Mentos, bhujia, refills…" autocomplete="off"></label>
+        <label>Company<select id="catalog-brand-filter"><option value="all">All seven companies</option>{{BRAND_OPTIONS}}</select></label>
+        <label>Category<select id="catalog-category-filter"><option value="all">Every category</option>{{CATEGORY_OPTIONS}}</select></label>
+      </div>
+      <div class="catalog-result-bar"><p id="catalog-result-count" role="status" aria-live="polite"></p><a id="catalog-dialog-official" target="_blank" rel="noopener noreferrer" hidden>Visit the official catalogue <span aria-hidden="true">↗</span></a></div>
+      <p class="catalog-dialog-note" id="catalog-dialog-note">Explore the manufacturers’ ranges. Confirm current stock and local availability with Bansal Sales Corporation.</p>
+      <div class="catalog-grid" id="catalog-grid"></div>
+      <div class="catalog-load"><button id="catalog-more" type="button" class="button">Show more products <span aria-hidden="true">↓</span></button><button id="catalog-top" type="button" class="text-link">Back to top <span aria-hidden="true">↑</span></button></div>
+      </div>
+    </div>
+  </dialog>
+  <p class="sr-only" id="catalog-announcement" aria-live="polite"></p>
+</section>
